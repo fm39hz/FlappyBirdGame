@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1by70gmptljo"]
+
+[ext_resource type="Texture2D" uid="uid://bll310yrc5tha" path="res://asset/background_day.png" id="1_iuw3j"]
+[ext_resource type="Script" uid="uid://cuyacxnit6etw" path="res://src/Game/Map/Levels/GameLevel.cs" id="1_odk08"]
+
+[node name="GameLevel" type="Node2D"]
+script = ExtResource("1_odk08")
+
+[node name="BackgroundDay" type="Sprite2D" parent="."]
+position = Vector2(72, 128)
+texture = ExtResource("1_iuw3j")

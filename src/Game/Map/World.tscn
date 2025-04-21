@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://cejtgilyu628o"]
+
+[ext_resource type="Script" uid="uid://41fen0scu7n" path="res://src/Game/Map/World.cs" id="1_x3acw"]
+[ext_resource type="PackedScene" uid="uid://dtoqtapvi83ps" path="res://src/Game/Creature/Tree/TreeEntity.tscn" id="2_qkc8t"]
+[ext_resource type="PackedScene" uid="uid://ci7hbw0oe6rnn" path="res://src/Game/Environment/FirePlace/FirePlaceEntity.tscn" id="3_h4daw"]
+[ext_resource type="PackedScene" uid="uid://bxxsymquypdig" path="res://src/Game/Environment/PlayerSpawningPoint/PlayerSpawningPoint.tscn" id="4_187yw"]
+[ext_resource type="Script" uid="uid://c7c751vexsofd" path="res://src/Game/Environment/PathNavigatorComponent.cs" id="5_8k38r"]
+[ext_resource type="PackedScene" uid="uid://c6n0kk45rf478" path="res://src/Game/Creature/Npc/NpcEntity.tscn" id="6_24vb3"]
+
+[sub_resource type="Curve2D" id="Curve2D_aqbe6"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 67, 124, 0, 0, 0, 0, 248, 43)
+}
+point_count = 2
+
+[node name="World" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_x3acw")
+metadata/_custom_type_script = "uid://41fen0scu7n"
+
+[node name="TreeEntity" parent="." instance=ExtResource("2_qkc8t")]
+position = Vector2(209, 27)
+
+[node name="TreeEntity2" parent="." instance=ExtResource("2_qkc8t")]
+position = Vector2(169, 165)
+
+[node name="FirePlaceEntity" parent="." instance=ExtResource("3_h4daw")]
+position = Vector2(135, 45)
+metadata/_edit_lock_ = true
+
+[node name="PlayerSpawningPoint" parent="." instance=ExtResource("4_187yw")]
+position = Vector2(120, 59)
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_aqbe6")
+
+[node name="PathFollow" type="PathFollow2D" parent="Path2D"]
+unique_name_in_owner = true
+position = Vector2(67, 124)
+rotation = -0.420784
+script = ExtResource("5_8k38r")
+
+[node name="NpcEntity" parent="." instance=ExtResource("6_24vb3")]
+position = Vector2(29, 84)

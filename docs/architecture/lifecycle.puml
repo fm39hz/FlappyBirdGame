@@ -1,0 +1,57 @@
+@startuml lifecycle
+title Entity Component lifecycle resolution
+    participant Entity
+    participant StateMachine
+    participant EntityTable
+    participant ComponentA
+    participant RepoA
+    participant ComponentB
+    participant RepoB
+
+    Entity->>EntityTable: Set(Name, this)
+    activate Entity
+    activate EntityTable
+    activate StateMachine
+    Entity->>Entity: ResolveComponent()
+    loop for each Component in Components
+        Entity->>ComponentA: OnWireUp()
+        activate ComponentA
+        ComponentA->>EntityTable: DependOn<EntityTable>()
+        EntityTable-->>ComponentA: reference
+        ComponentA->>RepoA: Initialize
+        activate RepoA
+        ComponentA->>EntityTable: Get<IEntity>(GetParent().Name)
+        EntityTable-->>ComponentA: entity reference => Entity
+        ComponentA->>ComponentB: Entity.GetComponent<ComponentB>().Repo
+        activate ComponentB
+        ComponentB->>RepoB: Get repository
+        activate RepoB
+        RepoB-->>ComponentB: Repository
+        ComponentB->>ComponentA: Repository
+        deactivate ComponentB
+
+        ComponentA->>RepoB: Subscribe to events
+        ComponentA->>RepoA: Subscribe to events
+
+        alt Entity has State Machine
+            Entity->>StateMachine: RegisterToStateMachine(ComponentA)
+        end
+    end
+    Entity->>Entity: OnExitTree()
+    Entity->>EntityTable: Remove(Name)
+    loop for each Component in Components
+        Entity->>ComponentA: OnExitTree()
+        ComponentA->>RepoB: Unsubscribe from events
+        deactivate RepoB
+        ComponentA->>RepoA: Unsubscribe from events
+        RepoA-->>ComponentA: Dispose
+        deactivate RepoA
+        ComponentA-->>Entity: Exit event
+        deactivate ComponentA
+        deactivate StateMachine
+        deactivate EntityTable
+        deactivate Entity
+    end
+
+@enduml
+

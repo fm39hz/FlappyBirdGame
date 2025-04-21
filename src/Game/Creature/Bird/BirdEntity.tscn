@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6pj58giy8ftp"]
+
+[ext_resource type="Script" uid="uid://cnvok1bqk2pof" path="res://src/Game/Creature/Bird/BirdEntity.cs" id="1_opsif"]
+[ext_resource type="Texture2D" uid="uid://bw5v6n285rawm" path="res://asset/bird_orange.png" id="2_x6n13"]
+[ext_resource type="Script" uid="uid://byu0f73pme8qb" path="res://src/Component/Animation/AnimationComponent.cs" id="3_prepn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x6n13"]
+radius = 6.08276
+
+[node name="BirdEntity" type="CharacterBody2D"]
+script = ExtResource("1_opsif")
+metadata/_custom_type_script = "uid://coqcadtr04pxx"
+
+[node name="BirdOrange" type="Sprite2D" parent="."]
+texture = ExtResource("2_x6n13")
+hframes = 3
+frame = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_x6n13")
+
+[node name="AnimationComponent" type="AnimationPlayer" parent="."]
+script = ExtResource("3_prepn")
+metadata/_custom_type_script = "uid://byu0f73pme8qb"

@@ -1,0 +1,3 @@
+@startuml StateMachineComponent
+state "StateMachineComponent State" as GameBoilerPlate_Component_Logic_State
+@enduml

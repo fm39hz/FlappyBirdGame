@@ -1,0 +1,30 @@
+@startuml ecs
+    interface IEntity {
+        +Dictionary<Type, IComponent> Components
+        +ResolveComponent()
+    }
+    
+    interface IComponent {
+        +OnWireUp()
+        +EntityTable EntityTable
+    }
+    
+    interface IComponentRepo<TRepo, TEntity> extends IComponent {
+        +TEntity Entity
+        +TRepo Repo
+    }
+    
+    interface IRepository {
+        +Dispose()
+    }
+    
+    class EntityTable {
+        +Set<T>(string name, T instance)
+        +Get<T>(string name)
+    }
+    
+    IEntity --> EntityTable : provides
+    IEntity --> IComponent : contains
+    IComponentRepo --> IRepository : contains
+    IComponent --> EntityTable : depends on
+@enduml

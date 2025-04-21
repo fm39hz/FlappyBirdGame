@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://du7hlwjl6vw6l"]
+
+[ext_resource type="Script" uid="uid://bp08nnb7df8f6" path="res://src/Main.cs" id="1_prpoe"]
+[ext_resource type="PackedScene" uid="uid://cywpu6lxdjhuu" path="res://src/Game/GameContainer.tscn" id="2_mhkwn"]
+[ext_resource type="PackedScene" uid="uid://dlwylj2hpslkh" path="res://src/Game/Gui/Gui.tscn" id="3_usfj2"]
+
+[node name="Main" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_prpoe")
+GameContainer = ExtResource("2_mhkwn")
+Gui = ExtResource("3_usfj2")
