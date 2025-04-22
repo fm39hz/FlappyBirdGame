@@ -66,4 +66,5 @@ script = ExtResource("3_prepn")
 metadata/_custom_type_script = "uid://byu0f73pme8qb"
 
 [node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
 one_shot = true

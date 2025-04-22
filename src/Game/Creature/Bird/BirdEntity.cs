@@ -13,11 +13,13 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 	public BirdStateMachine StateMachine => new();
 
 	[Node] public IAnimationComponent AnimationComponent { get; set; } = null!;
+	[Node] public Timer Timer { get; set; } = null!;
 
 	public void OnProvided() {
 		this.ResolveComponent();
 		this.RegisterToStateMachine(StateMachine);
 		StateMachine.Start();
+		StateMachine.Set(Timer);
 		AnimationComponent.Play("Flap");
 	}
 }
