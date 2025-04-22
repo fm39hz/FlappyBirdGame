@@ -10,12 +10,16 @@ public partial class GameContainer : Control, IGameContainer {
 
 	public override void _Ready() {
 		if (Level == null || Player == null) {
-			GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);
-			GetTree().CallDeferred(SceneTree.MethodName.Quit);
+			Quit();
 			return;
 		}
 		var player = Player.Instantiate<Node2D>();
 		player.Position = GetViewportRect().Size / 2;
 		SceneManager.GotoScene(Level, [player]);
+	}
+
+	public void Quit() {
+		GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);
+		GetTree().CallDeferred(SceneTree.MethodName.Quit);
 	}
 }
