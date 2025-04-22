@@ -59,8 +59,7 @@ public static class EntityExtension {
 	/// </summary>
 	/// <param name="entity">this IEntity</param>
 	/// <param name="stateMachine">target stateMachine of entity</param>
-	public static void RegisterToStateMachine<TState>(this IEntity entity, LogicBlock<TState> stateMachine)
-		where TState : StateLogic<TState> {
+	public static void RegisterToStateMachine(this IEntity entity, IStateMachine stateMachine) {
 		stateMachine.Set(entity);
 		var setMethod = stateMachine.GetType().BaseType?
 		.GetMethods(BindingFlags.Public | BindingFlags.Instance)

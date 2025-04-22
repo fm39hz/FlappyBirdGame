@@ -5,12 +5,12 @@ using Entity.Behaviour;
 using Entity.Creature;
 using Utils.Extension;
 
-public interface IBirdEntity : IStateMachineEntity<BirdStateMachine>;
+public interface IBirdEntity : IStateMachineEntity<IBirdStateMachine>;
 
 [Id(nameof(BirdEntity))]
 [Meta(typeof(IAutoNode))]
 public partial class BirdEntity : AnimalEntity, IBirdEntity {
-	public BirdStateMachine StateMachine => new();
+	public IBirdStateMachine StateMachine => new BirdStateMachine();
 
 	[Node] public IAnimationComponent AnimationComponent { get; set; } = null!;
 	[Node] public Timer Timer { get; set; } = null!;
