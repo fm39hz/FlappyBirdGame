@@ -5,21 +5,20 @@ using Chickensoft.GoDotTest;
 using Chickensoft.GodotTestDriver;
 using Component.Animation;
 using Game.Creature;
-using Game.Map;
 using JetBrains.Annotations;
+using Map.Levels;
 using Shouldly;
 
-// using Component.Movement;
 
 public class GameTest(Node testScene) : TestClass(testScene) {
 	private Fixture _fixture = null!;
-	[UsedImplicitly] private World _world = null!;
+	[UsedImplicitly] private GameLevel _world = null!;
 
 
 	[SetupAll]
 	public async Task Setup() {
 		_fixture = new Fixture(TestScene.GetTree());
-		_world = await _fixture.LoadAndAddScene<World>();
+		_world = await _fixture.LoadAndAddScene<GameLevel>();
 	}
 
 	[CleanupAll]
