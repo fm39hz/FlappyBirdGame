@@ -3,6 +3,7 @@ namespace FlappyBirdGame.Game.Creature;
 using Chickensoft.Log;
 using Chickensoft.LogicBlocks;
 using Component.Animation;
+using Utils.Extension;
 
 public partial class BirdStateMachine {
 	public override Transition GetInitialState() => To<State.Wait>();
@@ -10,13 +11,18 @@ public partial class BirdStateMachine {
 	public abstract record State : StateLogic<State> {
 		private readonly Log _logger = new(nameof(BirdStateMachine));
 
-		protected State() {
-			this.OnEnter(() => _logger.Print($"On State: {GetType().Name}"));
+		protected State(string animationName) {
+			this.OnEnter(() => {
+				_logger.Print($"On State: {GetType().Name}");
+				var animation = Get<IEntity>();
+				animation.GetComponent<IAnimationComponent>().Animate(animationName);
+			});
 		}
+
 		/// <summary>
 		/// The bird flap in the air, wait for user's first Tap/Input
 		/// </summary>
-		public sealed record Wait : State, IGet<Input.Flap> {
+		public sealed record Wait() : State("Flap"), IGet<Input.Flap> {
 			public Transition On(in Input.Flap input) => To<Fly.Flap>();
 		}
 
@@ -27,7 +33,7 @@ public partial class BirdStateMachine {
 			/// <summary>
 			/// When User don't tap, the bird will fall down
 			/// </summary>
-			public sealed record Fall : Fly, IGet<Input.Flap> {
+			public sealed record Fall() : Fly("Reset"), IGet<Input.Flap> {
 				public Transition On(in Input.Flap input) => To<Flap>();
 			}
 
@@ -43,12 +49,15 @@ public partial class BirdStateMachine {
 
 				public void OnTimeOut() => Input(new Input.Fall());
 
-				public Flap() {
+				public Flap() : base("Flap") {
 					OnAttach(OnSetTime);
 					OnDetach(() => Get<Timer>().Timeout -= OnTimeOut);
 				}
 
 				public Transition On(in Input.Fall input) => To<Fall>();
+			}
+
+			protected Fly(string animationName) : base(animationName) {
 			}
 
 			public Transition On(in Input.Collide input) => To<Dead>();
@@ -57,6 +66,6 @@ public partial class BirdStateMachine {
 		/// <summary>
 		/// The bird's dead, constantly falling out of screen
 		/// </summary>
-		public sealed record Dead : State;
+		public sealed record Dead() : State("Reset");
 	}
 }

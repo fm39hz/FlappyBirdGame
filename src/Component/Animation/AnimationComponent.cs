@@ -7,13 +7,15 @@ using Entity.Behaviour;
 
 public interface IAnimationComponent : IAnimationPlayer, IComponentRepo<IAnimationRepo, IAnimatedEntity> {
 	public bool IsFourDirection { get; set; }
+
+	public void Animate(string animation);
 }
 
 [GlobalClass]
 [Id(nameof(AnimationComponent))]
 [Meta(typeof(IAutoNode))]
 public partial class AnimationComponent : AnimationPlayer, IAnimationComponent {
-	private void Animate(string animation) => Play(animation);
+	public void Animate(string animation) => Play(animation);
 
 	#region Data
 
