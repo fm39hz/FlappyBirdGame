@@ -73,7 +73,7 @@ public static class EntityExtension {
 		invokeEntity.Invoke(stateMachine, [entity]);
 
 		#if DEBUG
-		var logger = new Log(nameof(RegisterToStateMachine));
+		var logger = new Log(entity.GetType().Name);
 		#endif
 		foreach (var component in entity.Components) {
 			var genericMethod = setMethod.MakeGenericMethod(component.Key);
@@ -101,7 +101,7 @@ public static class EntityExtension {
 				var repoMethod = setMethod.MakeGenericMethod(repoInterface);
 				repoMethod.Invoke(stateMachine, [repo]);
 				#if DEBUG
-				logger.Print($"Registered {repoInterface.Name} to {stateMachine.GetType().Name}");
+				logger.Print($"Registered {repoInterface.Name} to State Machine");
 				#endif
 			}
 		}

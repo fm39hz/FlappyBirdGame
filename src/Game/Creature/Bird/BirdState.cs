@@ -1,11 +1,18 @@
 namespace FlappyBirdGame.Game.Creature;
 
+using Chickensoft.Log;
 using Chickensoft.LogicBlocks;
+using Component.Animation;
 
 public partial class BirdStateMachine {
 	public override Transition GetInitialState() => To<State.Wait>();
 
 	public abstract record State : StateLogic<State> {
+		private readonly Log _logger = new(nameof(BirdStateMachine));
+
+		protected State() {
+			this.OnEnter(() => _logger.Print($"On State: {GetType().Name}"));
+		}
 		/// <summary>
 		/// The bird flap in the air, wait for user's first Tap/Input
 		/// </summary>
