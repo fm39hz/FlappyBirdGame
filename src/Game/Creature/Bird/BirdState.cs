@@ -3,9 +3,14 @@ namespace FlappyBirdGame.Game.Creature;
 using Chickensoft.Log;
 using Chickensoft.LogicBlocks;
 using Component.Animation;
+using Component.Input;
 
 public partial class BirdStateMachine {
-	public override Transition GetInitialState() => To<State.Wait>();
+	public override Transition GetInitialState() {
+		using var actionInput = Get<IActionInputRepo>();
+		actionInput.ActionButton.Value.IsPressed.Sync += _ => Input(new Input.Flap());
+		return To<State.Wait>();
+	}
 
 	public abstract record State : StateLogic<State> {
 		private readonly Log _logger = new(nameof(BirdStateMachine));
