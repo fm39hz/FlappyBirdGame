@@ -16,4 +16,8 @@ public sealed partial class BirdStateMachine : LogicBlock<BirdStateMachine.State
 
 		public readonly record struct Collide;
 	}
+
+	public static class Output {
+		public readonly record struct ChangeRotation(float rotation);
+	}
 }

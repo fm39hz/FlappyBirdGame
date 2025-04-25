@@ -12,5 +12,8 @@ FlappyBirdGame_Game_Creature_BirdStateMachine_State_Fly --> FlappyBirdGame_Game_
 FlappyBirdGame_Game_Creature_BirdStateMachine_State_Fly_Fall --> FlappyBirdGame_Game_Creature_BirdStateMachine_State_Fly_Flap : Flap
 FlappyBirdGame_Game_Creature_BirdStateMachine_State_Fly_Flap --> FlappyBirdGame_Game_Creature_BirdStateMachine_State_Fly_Fall : Fall
 FlappyBirdGame_Game_Creature_BirdStateMachine_State_Wait --> FlappyBirdGame_Game_Creature_BirdStateMachine_State_Fly_Flap : Flap
+
+FlappyBirdGame_Game_Creature_BirdStateMachine_State_Fly_Flap : OnSetTime() → ChangeRotation
+
 [*] --> FlappyBirdGame_Game_Creature_BirdStateMachine_State_Wait
 @enduml
