@@ -1,6 +1,7 @@
 namespace FlappyBirdGame.Utils.Extension;
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Chickensoft.Log;
@@ -59,14 +60,15 @@ public static class EntityExtension {
 	/// </summary>
 	/// <param name="entity">this IEntity</param>
 	/// <param name="stateMachine">target stateMachine of entity</param>
-	public static void RegisterToStateMachine(this IEntity entity, IStateMachine stateMachine) {
+	public static TStateMachine RegisterToStateMachine<TStateMachine>(this IEntity entity,
+		in TStateMachine stateMachine) where TStateMachine : IStateMachine {
 		stateMachine.Set(entity);
 		var setMethod = stateMachine.GetType().BaseType?
 		.GetMethods(BindingFlags.Public | BindingFlags.Instance)
 		.FirstOrDefault(static m => m is { Name: "Set", IsGenericMethod: true });
 
 		if (setMethod == null) {
-			return;
+			throw new UnreachableException();
 		}
 
 		var invokeEntity = setMethod.MakeGenericMethod(entity.GetType());
@@ -105,5 +107,6 @@ public static class EntityExtension {
 				#endif
 			}
 		}
+		return stateMachine;
 	}
 }
