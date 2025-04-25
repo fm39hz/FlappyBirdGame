@@ -1,6 +1,5 @@
 namespace FlappyBirdGame.Game.Creature;
 
-using Component.Animation;
 using Entity.Behaviour;
 using Entity.Creature;
 using Utils.Extension;

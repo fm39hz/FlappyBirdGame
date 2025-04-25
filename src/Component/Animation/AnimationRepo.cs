@@ -11,6 +11,8 @@ public interface IAnimationRepo : IRepository {
 
 	public void ChangeState(string state);
 
+	public void ChangeAnimation(string animation);
+
 	public void ChangeDirection(EDirection direction);
 }
 
@@ -61,6 +63,8 @@ public class AnimationRepo : BaseRepository, IAnimationRepo {
 		_animatedStateName.OnNext(state);
 		AnimationChanged?.Invoke($"{_animatedStateName.Value}_{_direction.Value.Convert()}");
 	}
+
+	public void ChangeAnimation(string animation) => AnimationChanged?.Invoke(animation);
 
 	public void ChangeDirection(EDirection direction) {
 		_direction.OnNext(direction);

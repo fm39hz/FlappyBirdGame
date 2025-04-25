@@ -3,7 +3,6 @@ namespace FlappyBirdGame.Game.Creature;
 using Chickensoft.Log;
 using Chickensoft.LogicBlocks;
 using Component.Animation;
-using Utils.Extension;
 
 public partial class BirdStateMachine {
 	public override Transition GetInitialState() => To<State.Wait>();
@@ -14,8 +13,8 @@ public partial class BirdStateMachine {
 		protected State(string animationName) {
 			this.OnEnter(() => {
 				_logger.Print($"On State: {GetType().Name}");
-				var animation = Get<IEntity>();
-				animation.GetComponent<IAnimationComponent>().Animate(animationName);
+				Get<IAnimationRepo>().ChangeAnimation(animationName);
+				_logger.Print($"Animated: {animationName}");
 			});
 		}
 
