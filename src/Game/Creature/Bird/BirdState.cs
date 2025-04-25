@@ -32,7 +32,7 @@ public partial class BirdStateMachine {
 			/// <summary>
 			/// When User don't tap, the bird will fall down
 			/// </summary>
-			public sealed record Fall() : Fly("Reset"), IGet<Input.Flap> {
+			public sealed record Fall() : Fly("RESET"), IGet<Input.Flap> {
 				public Transition On(in Input.Flap input) => To<Flap>();
 			}
 
@@ -66,6 +66,6 @@ public partial class BirdStateMachine {
 		/// <summary>
 		/// The bird's dead, constantly falling out of screen
 		/// </summary>
-		public sealed record Dead() : State("Reset");
+		public sealed record Dead() : State("RESET");
 	}
 }
