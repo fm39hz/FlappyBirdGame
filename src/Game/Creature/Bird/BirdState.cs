@@ -35,24 +35,24 @@ public partial class BirdStateMachine {
 		/// The bird flap in the air, wait for user's first Tap/Input
 		/// </summary>
 		public sealed record Wait() : State("Flap"), IGet<Input.Flap> {
-			public Transition On(in Input.Flap input) => To<Fly.Flap>();
+			public Transition On(in Input.Flap input) => To<Alive.Flap>();
 		}
 
 		/// <summary>
 		/// The Bird is alive
 		/// </summary>
-		public abstract record Fly : State, IGet<Input.Collide> {
+		public abstract record Alive : State, IGet<Input.Collide> {
 			/// <summary>
 			/// When User don't tap, the bird will fall down
 			/// </summary>
-			public sealed record Fall() : Fly("RESET"), IGet<Input.Flap> {
+			public sealed record Fall() : Alive("RESET"), IGet<Input.Flap> {
 				public Transition On(in Input.Flap input) => To<Flap>();
 			}
 
 			/// <summary>
 			/// When User tap, the bird will flap and fly up
 			/// </summary>
-			public sealed record Flap : Fly, IGet<Input.Fall> {
+			public sealed record Flap : Alive, IGet<Input.Fall> {
 				private void OnSetTime() {
 					var timer = Get<Timer>();
 					timer.Start(0.1);
@@ -70,7 +70,7 @@ public partial class BirdStateMachine {
 				public Transition On(in Input.Fall input) => To<Fall>();
 			}
 
-			protected Fly(string animationName) : base(animationName) {
+			protected Alive(string animationName) : base(animationName) {
 			}
 
 			public Transition On(in Input.Collide input) => To<Dead>();
