@@ -57,7 +57,7 @@ public partial class BirdStateMachine {
 					var timer = Get<Timer>();
 					timer.Start(0.1);
 					timer.Timeout += OnTimeOut;
-					Output(new Output.ChangeRotation(1.5f));
+					Output(new Output.RotationChange(1.5f));
 				}
 
 				public void OnTimeOut() => Input(new Input.Fall());

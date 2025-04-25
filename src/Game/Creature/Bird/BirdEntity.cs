@@ -19,10 +19,9 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 		StateMachine = this.RegisterToStateMachine(new BirdStateMachine());
 		StateMachine.Set(Timer);
 		using var binding = StateMachine.Bind();
-		binding.Handle((in BirdStateMachine.Output.ChangeRotation rotation) => {
-			Sprite2D.Rotation += rotation.rotation;
+		binding.Handle((in BirdStateMachine.Output.RotationChange output) => {
+			Sprite2D.Rotation += output.Rotation;
 		});
 		StateMachine.Start();
-		GD.Print("");
 	}
 }
