@@ -6,9 +6,17 @@ using Component.Animation;
 using Component.Input;
 
 public partial class BirdStateMachine {
+	public void Flap(bool isPressed) {
+		if (isPressed) {
+			Input(new Input.Fall());
+		}
+		Input(new Input.Flap());
+	}
+
 	public override Transition GetInitialState() {
-		using var actionInput = Get<IActionInputRepo>();
-		actionInput.ActionButton.Value.IsPressed.Sync += _ => Input(new Input.Flap());
+		using (var actionInput = Get<IActionInputRepo>()) {
+			// actionInput.ActionButton.Value.IsPressed.Sync += Flap;
+		}
 		return To<State.Wait>();
 	}
 
