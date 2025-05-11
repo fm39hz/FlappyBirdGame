@@ -6,7 +6,7 @@ using Component.Animation;
 using Component.Input;
 
 public partial class BirdStateMachine {
-	public void Flap(bool isPressed) {
+	private void Flap(bool isPressed) {
 		if (isPressed) {
 			Input(new Input.Fall());
 		}
@@ -23,7 +23,7 @@ public partial class BirdStateMachine {
 	public abstract record State : StateLogic<State> {
 		private readonly Log _logger = new(nameof(BirdStateMachine));
 
-		protected State(string animationName) {
+		private State(string animationName) {
 			this.OnEnter(() => {
 				_logger.Print($"On State: {GetType().Name}");
 				Get<IAnimationRepo>().ChangeAnimation(animationName);
