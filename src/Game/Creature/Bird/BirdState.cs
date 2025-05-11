@@ -15,7 +15,7 @@ public partial class BirdStateMachine {
 
 	public override Transition GetInitialState() {
 		using (var actionInput = Get<IActionInputRepo>()) {
-			// actionInput.ActionButton.Value.IsPressed.Sync += Flap;
+			actionInput.ActionButton.IsPressed.Changed += Flap;
 		}
 		return To<State.Wait>();
 	}

@@ -15,7 +15,7 @@ public partial class ActionInputComponent : Node, IActionInputComponent {
 		// TODO: wiring component
 	}
 
-	public IActionInputRepo Repo => new ActionInputRepo();
+	public IActionInputRepo Repo { get; } = new ActionInputRepo();
 
 	#endregion
 
