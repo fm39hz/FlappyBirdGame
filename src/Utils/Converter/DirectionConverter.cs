@@ -37,44 +37,26 @@ public static class DirectionConverter {
 
 	private static Dictionary<Vector2, EDirection> RoundDirection =>
 		new() {
-			{
-				Vector2.Down, EDirection.South
-			}, {
-				Vector2.Right, EDirection.East
-			}, {
-				Vector2.Up, EDirection.North
-			}, {
-				Vector2.Left, EDirection.West
-			}, {
-				Vector2.Down + Vector2.Right, EDirection.SouthEast
-			}, {
-				Vector2.Right + Vector2.Up, EDirection.NorthEast
-			}, {
-				Vector2.Up + Vector2.Left, EDirection.NorthWest
-			}, {
-				Vector2.Left + Vector2.Down, EDirection.SouthWest
-			}
+			{ Vector2.Down, EDirection.South },
+			{ Vector2.Right, EDirection.East },
+			{ Vector2.Up, EDirection.North },
+			{ Vector2.Left, EDirection.West },
+			{ Vector2.Down + Vector2.Right, EDirection.SouthEast },
+			{ Vector2.Right + Vector2.Up, EDirection.NorthEast },
+			{ Vector2.Up + Vector2.Left, EDirection.NorthWest },
+			{ Vector2.Left + Vector2.Down, EDirection.SouthWest }
 		};
 
 	private static Dictionary<Vector2, EDirection> CrossDirection =>
 		new() {
-			{
-				Vector2.Down, EDirection.South
-			}, {
-				Vector2.Right, EDirection.East
-			}, {
-				Vector2.Up, EDirection.North
-			}, {
-				Vector2.Left, EDirection.West
-			}, {
-				Vector2.Down + Vector2.Right, EDirection.East
-			}, {
-				Vector2.Right + Vector2.Up, EDirection.East
-			}, {
-				Vector2.Up + Vector2.Left, EDirection.West
-			}, {
-				Vector2.Left + Vector2.Down, EDirection.West
-			}
+			{ Vector2.Down, EDirection.South },
+			{ Vector2.Right, EDirection.East },
+			{ Vector2.Up, EDirection.North },
+			{ Vector2.Left, EDirection.West },
+			{ Vector2.Down + Vector2.Right, EDirection.East },
+			{ Vector2.Right + Vector2.Up, EDirection.East },
+			{ Vector2.Up + Vector2.Left, EDirection.West },
+			{ Vector2.Left + Vector2.Down, EDirection.West }
 		};
 
 	#endregion Store

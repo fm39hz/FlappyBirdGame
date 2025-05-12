@@ -5,9 +5,10 @@ using Chickensoft.LogicBlocks;
 public interface IBirdStateMachine : IStateMachine;
 
 /// <summary>
-/// State machine for the Bird Entity
+///     State machine for the Bird Entity
 /// </summary>
-[Meta, LogicBlock(typeof(State), Diagram = true)]
+[Meta]
+[LogicBlock(typeof(State), Diagram = true)]
 public sealed partial class BirdStateMachine : LogicBlock<BirdStateMachine.State>, IBirdStateMachine {
 	public static class Input {
 		public readonly record struct Flap;

@@ -19,13 +19,13 @@ public class SingleInputRepo : BaseRepository, ISingleInputRepo {
 
 	public void PressButton(InputEvent inputEvent) {
 		_isPressed.OnNext(inputEvent.IsPressed() && InputMapping.IsJustPressed(_inputMap.Value));
-		#if DEBUG
+#if DEBUG
 		if (!_isPressed.Value) {
 			return;
 		}
 
 		_logger.Print("Button pressed");
-		#endif
+#endif
 	}
 
 	#endregion Actions
@@ -47,8 +47,8 @@ public class SingleInputRepo : BaseRepository, ISingleInputRepo {
 
 	#region Props
 
-	#if DEBUG
-	#endif
+#if DEBUG
+#endif
 
 	private readonly AutoProp<bool> _isPressed;
 	public IAutoProp<bool> IsPressed => _isPressed;

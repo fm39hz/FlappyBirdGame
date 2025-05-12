@@ -29,7 +29,7 @@ public partial class SpawningPoint : Area2D {
 	}
 
 	private void Spawn() {
-		while (!Initialized && _entities.Dequeue() is {} entity) {
+		while (!Initialized && _entities.Dequeue() is { } entity) {
 			var parent = GetParent();
 			var children = parent.GetChildren<Node2D>();
 			var positions = children.Select(static child => child.Position).ToList();

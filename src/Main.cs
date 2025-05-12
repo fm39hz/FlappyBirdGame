@@ -12,14 +12,14 @@ using Utils.Manager;
 // Game.cs instead.
 
 public partial class Main : Node2D {
-	#if DEBUG
+#if DEBUG
 	private TestEnvironment _environment = null!;
-	#endif
+#endif
 	[Export] public PackedScene GameContainer { get; set; } = null!;
 	[Export] public PackedScene Gui { get; set; } = null!;
 
 	public override void _Ready() {
-		#if DEBUG
+#if DEBUG
 		// If this is a debug build, use GoDotTest to examine the
 		// command line arguments and determine if we should run tests.
 		_environment = TestEnvironment.From(OS.GetCmdlineArgs());
@@ -27,14 +27,14 @@ public partial class Main : Node2D {
 			CallDeferred(MethodName.RunTests);
 			return;
 		}
-		#endif
+#endif
 		// If we don't need to run tests, we can just switch to the game scene.
 		CallDeferred(MethodName.RunScene);
 	}
 
-	#if DEBUG
+#if DEBUG
 	private void RunTests() => _ = GoTest.RunTests(Assembly.GetExecutingAssembly(), this, _environment);
-	#endif
+#endif
 
 	private void RunScene() {
 		SceneManager.LoadContainer(GameContainer, [Gui.Instantiate()]);

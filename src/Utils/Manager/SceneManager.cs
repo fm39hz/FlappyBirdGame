@@ -7,9 +7,9 @@ using JetBrains.Annotations;
 using NodeExtra;
 
 public class SceneManager : Singleton<SceneManager> {
-	#if DEBUG
+#if DEBUG
 	private readonly Log _log = new(nameof(SceneManager));
-	#endif
+#endif
 	private Node CurrentScene { get; set; } = new();
 	private Node GameContainer { get; set; } = null!;
 
@@ -29,9 +29,9 @@ public class SceneManager : Singleton<SceneManager> {
 		}
 
 		_instance._tree.Root.AddChild(nextScene);
-		#if DEBUG
+#if DEBUG
 		_instance._log.Print($"Loaded container: {nextScene.Name}");
-		#endif
+#endif
 	}
 
 	[UsedImplicitly]
@@ -43,9 +43,9 @@ public class SceneManager : Singleton<SceneManager> {
 
 	private static void GotoScene(Node level, List<Node2D> carryOverEntities = null!) {
 		if (_instance.CurrentScene == level) {
-			#if DEBUG
+#if DEBUG
 			_instance._log.Print($"Already in level: {_instance.CurrentScene.Name}");
-			#endif
+#endif
 			return;
 		}
 
@@ -65,8 +65,8 @@ public class SceneManager : Singleton<SceneManager> {
 		_instance.GameContainer.AddChild(level);
 		_instance.CurrentScene.QueueFree();
 		_instance.CurrentScene = level;
-		#if DEBUG
+#if DEBUG
 		_instance._log.Print($"Switched to level: {level.Name}");
-		#endif
+#endif
 	}
 }

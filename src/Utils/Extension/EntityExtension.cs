@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Chickensoft.Log;
-using Chickensoft.LogicBlocks;
 
 public static class EntityExtension {
 	/// <summary>
@@ -43,10 +42,10 @@ public static class EntityExtension {
 		if (!required) {
 			return default!;
 		}
-		#if DEBUG
+#if DEBUG
 		var logger = new Log(nameof(GetComponent));
 		logger.Err($"Component of type {typeof(T)} not found");
-		#endif
+#endif
 		throw new MissingMemberException($"Component of type {typeof(T)} not found");
 	}
 
@@ -64,8 +63,8 @@ public static class EntityExtension {
 		in TStateMachine stateMachine) where TStateMachine : IStateMachine {
 		stateMachine.Set(entity);
 		var setMethod = stateMachine.GetType().BaseType?
-		.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-		.FirstOrDefault(static m => m is { Name: "Set", IsGenericMethod: true });
+			.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+			.FirstOrDefault(static m => m is { Name: "Set", IsGenericMethod: true });
 
 		if (setMethod == null) {
 			throw new UnreachableException();
@@ -74,15 +73,15 @@ public static class EntityExtension {
 		var invokeEntity = setMethod.MakeGenericMethod(entity.GetType());
 		invokeEntity.Invoke(stateMachine, [entity]);
 
-		#if DEBUG
+#if DEBUG
 		var logger = new Log(entity.GetType().Name);
-		#endif
+#endif
 		foreach (var component in entity.Components) {
 			var genericMethod = setMethod.MakeGenericMethod(component.Key);
 			genericMethod.Invoke(stateMachine, [component.Value]);
 
 			var repoProperty = component.Key.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-			.FirstOrDefault(static p => typeof(IRepository).IsAssignableFrom(p.PropertyType) && p.Name == "Repo");
+				.FirstOrDefault(static p => typeof(IRepository).IsAssignableFrom(p.PropertyType) && p.Name == "Repo");
 
 			if (repoProperty == null) {
 				continue;
@@ -102,11 +101,12 @@ public static class EntityExtension {
 
 				var repoMethod = setMethod.MakeGenericMethod(repoInterface);
 				repoMethod.Invoke(stateMachine, [repo]);
-				#if DEBUG
+#if DEBUG
 				logger.Print($"Registered {repoInterface.Name} to State Machine");
-				#endif
+#endif
 			}
 		}
+
 		return stateMachine;
 	}
 }

@@ -12,18 +12,19 @@ public interface IRepository : IDisposable;
 /// </summary>
 /// <param name="name"></param>
 public abstract class BaseRepository(string name) : IRepository {
-	#if DEBUG
+#if DEBUG
 	protected readonly Log _logger = new(name);
-	#endif
+#endif
 	protected bool _isDisposed;
 
 	public virtual void Dispose() {
 		if (!_isDisposed) {
 			_isDisposed = true;
-			#if DEBUG
+#if DEBUG
 			_logger.Print("Complete disposal");
-			#endif
+#endif
 		}
+
 		GC.SuppressFinalize(this);
 	}
 }

@@ -9,10 +9,9 @@ public interface IBirdEntity : IStateMachineEntity<BirdStateMachine>;
 [Id(nameof(BirdEntity))]
 [Meta(typeof(IAutoNode))]
 public partial class BirdEntity : AnimalEntity, IBirdEntity {
-	public BirdStateMachine StateMachine { get; private set; } = null!;
-
 	[Node] private Timer Timer { get; set; } = null!;
 	[Node] private Sprite2D Sprite2D { get; set; } = null!;
+	public BirdStateMachine StateMachine { get; private set; } = null!;
 
 	public void OnProvided() {
 		this.ResolveComponent();

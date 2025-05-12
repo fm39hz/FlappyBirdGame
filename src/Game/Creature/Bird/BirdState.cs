@@ -10,6 +10,7 @@ public partial class BirdStateMachine {
 		if (isPressed) {
 			Input(new Input.Fall());
 		}
+
 		Input(new Input.Flap());
 	}
 
@@ -17,6 +18,7 @@ public partial class BirdStateMachine {
 		using (var actionInput = Get<IActionInputRepo>()) {
 			actionInput.ActionButton.IsPressed.Changed += Flap;
 		}
+
 		return To<State.Wait>();
 	}
 
@@ -32,27 +34,39 @@ public partial class BirdStateMachine {
 		}
 
 		/// <summary>
-		/// The bird flap in the air, wait for user's first Tap/Input
+		///     The bird flap in the air, wait for user's first Tap/Input
 		/// </summary>
 		public sealed record Wait() : State("Flap"), IGet<Input.Flap> {
 			public Transition On(in Input.Flap input) => To<Alive.Flap>();
 		}
 
 		/// <summary>
-		/// The Bird is alive
+		///     The Bird is alive
 		/// </summary>
 		public abstract record Alive : State, IGet<Input.Collide> {
+			private Alive(string animationName) : base(animationName) {
+			}
+
+			public Transition On(in Input.Collide input) => To<Dead>();
+
 			/// <summary>
-			/// When User don't tap, the bird will fall down
+			///     When Player is not tap, the bird will fall down
 			/// </summary>
 			public sealed record Fall() : Alive("RESET"), IGet<Input.Flap> {
 				public Transition On(in Input.Flap input) => To<Flap>();
 			}
 
 			/// <summary>
-			/// When User tap, the bird will flap and fly up
+			///     When Player tap, the bird will flap and fly up
 			/// </summary>
 			public sealed record Flap : Alive, IGet<Input.Fall> {
+				public Flap() : base("Flap") {
+					OnAttach(OnSetTime);
+					OnDetach(() => Get<Timer>().Timeout -= OnTimeOut);
+				}
+
+				public Transition On(in Input.Fall input) => To<Fall>();
+
 				private void OnSetTime() {
 					var timer = Get<Timer>();
 					timer.Start(0.1);
@@ -60,24 +74,12 @@ public partial class BirdStateMachine {
 					Output(new Output.RotationChange(1.5f));
 				}
 
-				public void OnTimeOut() => Input(new Input.Fall());
-
-				public Flap() : base("Flap") {
-					OnAttach(OnSetTime);
-					OnDetach(() => Get<Timer>().Timeout -= OnTimeOut);
-				}
-
-				public Transition On(in Input.Fall input) => To<Fall>();
+				private void OnTimeOut() => Input(new Input.Fall());
 			}
-
-			protected Alive(string animationName) : base(animationName) {
-			}
-
-			public Transition On(in Input.Collide input) => To<Dead>();
 		}
 
 		/// <summary>
-		/// The bird's dead, constantly falling out of screen
+		///     The bird's dead, constantly falling out of screen
 		/// </summary>
 		public sealed record Dead() : State("RESET");
 	}

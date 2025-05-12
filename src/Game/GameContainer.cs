@@ -13,6 +13,7 @@ public partial class GameContainer : Control, IGameContainer {
 			Quit();
 			return;
 		}
+
 		var player = Player.Instantiate<Node2D>();
 		player.Position = GetViewportRect().Size / 2;
 		SceneManager.GotoScene(Level, [player]);

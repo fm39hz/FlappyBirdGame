@@ -17,15 +17,13 @@ public static class ShapePolygonGenerator {
 		var texture = spriteSheet.Texture;
 		var (width, height) = spriteSheet.GetSpriteInformation();
 		for (int frame = 0, state = 0; frame < spriteSheet.Hframes * spriteSheet.Vframes; frame++) {
-			var position = new Vector2I {
-				X = frame * width - texture.GetWidth() * state, Y = state * height
-			};
+			var position = new Vector2I { X = (frame * width) - (texture.GetWidth() * state), Y = state * height };
 			var polys = bitmap.OpaqueToPolygons(new Rect2I(position, width, height), ACCURACY);
 			foreach (var shape in polys) {
 				shapePool.Add(frame, ConfigPolygon(shape, spriteSheet.Position, name + "_" + frame));
 			}
 
-			if (frame == spriteSheet.Hframes * (state + 1) - 1) {
+			if (frame == (spriteSheet.Hframes * (state + 1)) - 1) {
 				state++;
 			}
 		}
@@ -38,9 +36,7 @@ public static class ShapePolygonGenerator {
 			poly[i] += position;
 		}
 
-		var shape = new CollisionPolygon2D {
-			Polygon = poly, Name = name
-		};
+		var shape = new CollisionPolygon2D { Polygon = poly, Name = name };
 		return shape;
 	}
 }
