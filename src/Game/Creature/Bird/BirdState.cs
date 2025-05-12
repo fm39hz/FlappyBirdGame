@@ -61,6 +61,9 @@ public partial class BirdStateMachine {
 			/// </summary>
 			public sealed record Flap : Alive, IGet<Input.Fall> {
 				public Flap() : base("Flap") {
+					this.OnEnter(() => {
+						Output(new Output.RotationChange(1.5f));
+					});
 					OnAttach(OnSetTime);
 					OnDetach(() => Get<Timer>().Timeout -= OnTimeOut);
 				}
@@ -71,7 +74,6 @@ public partial class BirdStateMachine {
 					var timer = Get<Timer>();
 					timer.Start(0.1);
 					timer.Timeout += OnTimeOut;
-					Output(new Output.RotationChange(1.5f));
 				}
 
 				private void OnTimeOut() => Input(new Input.Fall());
