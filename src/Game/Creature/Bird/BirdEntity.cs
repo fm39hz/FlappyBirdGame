@@ -1,5 +1,6 @@
 namespace FlappyBirdGame.Game.Creature;
 
+using Chickensoft.Log;
 using Entity.Behaviour;
 using Entity.Creature;
 using Utils.Extension;
@@ -17,9 +18,9 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 		this.ResolveComponent();
 		StateMachine = this.RegisterToStateMachine(new BirdStateMachine());
 		StateMachine.Set(Timer);
-		using var binding = StateMachine.Bind();
+		var binding = StateMachine.Bind();
 		binding.Handle((in BirdStateMachine.Output.RotationChange output) => {
-			Sprite2D.Rotation += output.Rotation;
+			Sprite2D.RotationDegrees += output.Degree;
 		});
 		StateMachine.Start();
 	}

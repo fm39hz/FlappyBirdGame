@@ -13,6 +13,7 @@ FlappyBirdGame_Game_Creature_BirdStateMachine_State_Alive_Fall --> FlappyBirdGam
 FlappyBirdGame_Game_Creature_BirdStateMachine_State_Alive_Flap --> FlappyBirdGame_Game_Creature_BirdStateMachine_State_Alive_Fall : Fall
 FlappyBirdGame_Game_Creature_BirdStateMachine_State_Wait --> FlappyBirdGame_Game_Creature_BirdStateMachine_State_Alive_Flap : Flap
 
+FlappyBirdGame_Game_Creature_BirdStateMachine_State_Alive_Fall : OnEnter → RotationChange
 FlappyBirdGame_Game_Creature_BirdStateMachine_State_Alive_Flap : OnEnter → RotationChange
 
 [*] --> FlappyBirdGame_Game_Creature_BirdStateMachine_State_Wait
