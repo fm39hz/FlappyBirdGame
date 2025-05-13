@@ -4,6 +4,7 @@ using Game.Environment.Pipe;
 using Game.Map;
 
 [Id(nameof(GameLevel))]
+[GlobalClass]
 [Meta(typeof(IAutoNode))]
 public partial class GameLevel : World {
 	private Timer _spawnTimer = null!;
