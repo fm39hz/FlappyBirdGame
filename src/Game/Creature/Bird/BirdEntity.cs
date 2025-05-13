@@ -14,7 +14,6 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 	public BirdStateMachine StateMachine { get; private set; } = null!;
 	[Export] public float Gravity { get; set; } = 5f;
 	[Export] public float JumpForce { get; set; } = 5f;
-	[Export] public float MaxFallSpeed { get; set; } = 20f;
 
 	public void OnProvided() {
 		this.ResolveComponent();

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using Behaviour;
 using Chickensoft.Collections;
 
-public interface IObjectEntity : IStaticEntity, IAnimatedEntity;
+public interface IEnvironmentEntity : IStaticEntity, IAnimatedEntity;
 
 [GlobalClass]
 [Id(nameof(EnvironmentEntity))]
 [Meta(typeof(IAutoNode))]
-public partial class EnvironmentEntity : StaticBody2D, IObjectEntity {
+public partial class EnvironmentEntity : StaticBody2D, IEnvironmentEntity {
 	public Dictionary<Type, IComponent> Components { get; set; } = [];
 
 	#region AutoInject
