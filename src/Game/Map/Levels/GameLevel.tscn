@@ -1,11 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://c1by70gmptljo"]
+[gd_scene load_steps=5 format=3 uid="uid://c1by70gmptljo"]
 
 [ext_resource type="Texture2D" uid="uid://bll310yrc5tha" path="res://asset/background_day.png" id="1_iuw3j"]
 [ext_resource type="Script" uid="uid://cuyacxnit6etw" path="res://src/Game/Map/Levels/GameLevel.cs" id="1_odk08"]
+[ext_resource type="PackedScene" uid="uid://0hnuinnie2gd" path="res://src/Game/Environment/Pipe/PipeEntity.tscn" id="3_mvbfl"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_odk08"]
+distance = -291.0
 
 [node name="GameLevel" type="Node2D"]
 script = ExtResource("1_odk08")
+PipeScene = ExtResource("3_mvbfl")
+GapSize = 10.0
 
 [node name="BackgroundDay" type="Sprite2D" parent="."]
 position = Vector2(72, 128)
 texture = ExtResource("1_iuw3j")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_odk08")

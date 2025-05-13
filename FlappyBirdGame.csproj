@@ -61,6 +61,5 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="src\Game\Creature\" />
-		<Folder Include="src\Game\Environment\" />
 	</ItemGroup>
 </Project>

@@ -36,6 +36,6 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 			state.Run();
 		}
 
-		MoveAndSlide();
+		MoveAndCollide(Velocity * (float)delta);
 	}
 }
