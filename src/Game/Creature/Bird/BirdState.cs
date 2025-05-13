@@ -52,22 +52,26 @@ public partial class BirdStateMachine {
 			/// <summary>
 			///     When Player is not tap, the bird will fall down
 			/// </summary>
-			public sealed record Fall : Alive, IGet<Input.Flap> {
+			public sealed record Fall : Alive, IGet<Input.Flap>, IState {
 				public Fall() : base("RESET") {
 					this.OnEnter(() => {
 						Output(new Output.RotationChange(25));
+						Output(new Output.FallDown());
 					});
 				}
 				public Transition On(in Input.Flap input) => To<Flap>();
+
+				public void Run() => Output(new Output.FallDown());
 			}
 
 			/// <summary>
 			///     When Player tap, the bird will flap and fly up
 			/// </summary>
-			public sealed record Flap : Alive, IGet<Input.Fall> {
+			public sealed record Flap : Alive, IGet<Input.Fall>, IState {
 				public Flap() : base("Flap") {
 					this.OnEnter(() => {
 						Output(new Output.RotationChange(-25));
+						Output(new Output.FlyUp());
 					});
 					OnAttach(OnSetTime);
 					OnDetach(() => Get<Timer>().Timeout -= OnTimeOut);
@@ -82,6 +86,7 @@ public partial class BirdStateMachine {
 				}
 
 				private void OnTimeOut() => Input(new Input.Fall());
+				public void Run() => Output(new Output.FlyUp());
 			}
 		}
 
