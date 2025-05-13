@@ -32,7 +32,7 @@ public partial class GameLevel : World {
 		}
 
 		var screenSize = GetViewportRect().Size;
-		var spawnX = screenSize.X + 50;
+		var spawnX = screenSize.X + 10;
 		const float pipeGapOffset = -190f;
 		var minScreenGapY = (GapSize / 2) + 50f;
 		var maxScreenGapY = screenSize.Y - (GapSize / 2) - 50f;
@@ -54,8 +54,6 @@ public partial class GameLevel : World {
 	private void StopLevel() => _spawnTimer.Stop();
 
 	internal partial class PipeMover(Node2D pipe, float speed) : Node {
-		public override void _Ready() => SetPhysicsProcess(true);
-
 		public override void _PhysicsProcess(double delta) {
 			pipe.Position += Vector2.Left * speed * (float)delta;
 

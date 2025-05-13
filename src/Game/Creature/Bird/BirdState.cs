@@ -4,6 +4,7 @@ using Chickensoft.Log;
 using Chickensoft.LogicBlocks;
 using Component.Animation;
 using Component.Input;
+using JetBrains.Annotations;
 
 public partial class BirdStateMachine {
 	private void Flap(bool isPressed) {
@@ -43,10 +44,8 @@ public partial class BirdStateMachine {
 		/// <summary>
 		///     The Bird is alive
 		/// </summary>
-		public abstract record Alive : State, IGet<Input.Collide> {
-			private Alive(string animationName) : base(animationName) {
-			}
-
+		public abstract record Alive([UsedImplicitly] string AnimationName)
+			: State(AnimationName), IGet<Input.Collide> {
 			public Transition On(in Input.Collide input) => To<Dead>();
 
 			/// <summary>
@@ -56,9 +55,9 @@ public partial class BirdStateMachine {
 				public Fall() : base("RESET") {
 					this.OnEnter(() => {
 						Output(new Output.RotationChange(25));
-						Output(new Output.FallDown());
 					});
 				}
+
 				public Transition On(in Input.Flap input) => To<Flap>();
 
 				public void Run() => Output(new Output.FallDown());
@@ -71,7 +70,6 @@ public partial class BirdStateMachine {
 				public Flap() : base("Flap") {
 					this.OnEnter(() => {
 						Output(new Output.RotationChange(-25));
-						Output(new Output.FlyUp());
 					});
 					OnAttach(OnSetTime);
 					OnDetach(() => Get<Timer>().Timeout -= OnTimeOut);
@@ -81,7 +79,7 @@ public partial class BirdStateMachine {
 
 				private void OnSetTime() {
 					var timer = Get<Timer>();
-					timer.Start(0.1);
+					timer.Start(0.2);
 					timer.Timeout += OnTimeOut;
 				}
 
