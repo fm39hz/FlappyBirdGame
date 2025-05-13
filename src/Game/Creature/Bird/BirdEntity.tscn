@@ -48,6 +48,7 @@ _data = {
 
 [node name="BirdEntity" type="CharacterBody2D"]
 script = ExtResource("1_opsif")
+JumpForce = 10.0
 metadata/_custom_type_script = "uid://coqcadtr04pxx"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

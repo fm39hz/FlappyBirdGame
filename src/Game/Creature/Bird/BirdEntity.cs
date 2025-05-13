@@ -22,8 +22,7 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 		var binding = StateMachine.Bind();
 		binding.Handle((in BirdStateMachine.Output.RotationChange output) => {
 			Sprite2D.RotationDegrees += output.Degree;
-		});
-		binding.Handle((in BirdStateMachine.Output.FlyUp _) => {
+		}).Handle((in BirdStateMachine.Output.FlyUp _) => {
 			Velocity += (Vector2.Up * JumpForce) + (Vector2.Down * Gravity);
 		}).Handle((in BirdStateMachine.Output.FallDown _) => {
 			Velocity += Vector2.Down * Gravity;
@@ -36,6 +35,6 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 			state.Run();
 		}
 
-		MoveAndCollide(Velocity * (float)delta);
+		MoveAndSlide();
 	}
 }
