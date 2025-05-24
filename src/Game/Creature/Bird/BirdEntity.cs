@@ -1,17 +1,27 @@
 namespace FlappyBirdGame.Game.Creature;
 
+using Chickensoft.Log;
 using Entity.Behaviour;
 using Entity.Creature;
 using Utils.Extension;
 
-public interface IBirdEntity : IStateMachineEntity<BirdStateMachine>, IAnimalEntity;
+public interface IBirdEntity : IStateMachineEntity<BirdStateMachine>, IAnimalEntity {
+	public void Collide();
+}
 
 [Id(nameof(BirdEntity))]
 [Meta(typeof(IAutoNode))]
 public partial class BirdEntity : AnimalEntity, IBirdEntity {
 	[Node] private Timer Timer { get; set; } = null!;
 	[Node] private Sprite2D Sprite2D { get; set; } = null!;
+
+	private readonly Log _logger = new(nameof(BirdEntity));
 	public BirdStateMachine StateMachine { get; private set; } = null!;
+	public void Collide() {
+		_logger.Print("Collide");
+		StateMachine.Input(new BirdStateMachine.Input.Collide());
+	}
+
 	[Export] public float Gravity { get; set; } = 5f;
 	[Export] public float JumpForce { get; set; } = 5f;
 
