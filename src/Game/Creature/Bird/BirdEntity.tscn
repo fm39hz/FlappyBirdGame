@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://c6pj58giy8ftp"]
+[gd_scene load_steps=10 format=3 uid="uid://c6pj58giy8ftp"]
 
 [ext_resource type="Script" uid="uid://cnvok1bqk2pof" path="res://src/Game/Creature/Bird/BirdEntity.cs" id="1_opsif"]
 [ext_resource type="Texture2D" uid="uid://bw5v6n285rawm" path="res://asset/bird_orange.png" id="2_x6n13"]
 [ext_resource type="Script" uid="uid://byu0f73pme8qb" path="res://src/Component/Animation/AnimationComponent.cs" id="3_prepn"]
 [ext_resource type="Script" uid="uid://u0slad4v1qfm" path="res://src/Component/Input/ActionInputComponent.cs" id="4_prepn"]
+[ext_resource type="Script" uid="uid://ccqnsc4qvbv10" path="res://src/Component/ScoreCounter/ScoreCounterComponent.cs" id="5_whktl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x6n13"]
 radius = 6.08276
@@ -76,3 +77,8 @@ metadata/_custom_type_script = "uid://byu0f73pme8qb"
 unique_name_in_owner = true
 script = ExtResource("4_prepn")
 metadata/_custom_type_script = "uid://u0slad4v1qfm"
+
+[node name="ScoreCounterComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_whktl")
+metadata/_custom_type_script = "uid://ccqnsc4qvbv10"

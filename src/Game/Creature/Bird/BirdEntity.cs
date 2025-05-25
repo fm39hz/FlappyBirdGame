@@ -1,6 +1,7 @@
 namespace FlappyBirdGame.Game.Creature;
 
 using Chickensoft.Log;
+using Component.ScoreCounter;
 using Entity.Behaviour;
 using Entity.Creature;
 using FlappyBirdGame.Map.Levels;
@@ -8,6 +9,7 @@ using Utils.Extension;
 
 public interface IBirdEntity : IStateMachineEntity<BirdStateMachine>, IAnimalEntity {
 	public void Collide();
+	public void IncreaseScore();
 }
 
 [Id(nameof(BirdEntity))]
@@ -16,6 +18,7 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 	private readonly Log _logger = new(nameof(BirdEntity));
 	[Node] private Timer Timer { get; set; } = null!;
 	[Node] private Sprite2D Sprite2D { get; set; } = null!;
+	[Node] private ScoreCounterComponent ScoreCounterComponent { get; set; } = null!;
 	private bool IsCollided { get; set; }
 
 	[Export] public float Gravity { get; set; } = 5f;
@@ -23,6 +26,11 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 	public BirdStateMachine StateMachine { get; private set; } = null!;
 
 	private Vector2 StartPosition { get; set; } = Vector2.Zero;
+
+	public void IncreaseScore() {
+		ScoreCounterComponent.Repo.Increase();
+		_logger.Print($"Score: {ScoreCounterComponent.Repo.Score.Value}");
+	}
 
 	public void Collide() {
 		_logger.Print("Game Ended");
@@ -60,7 +68,6 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 		if (StateMachine.Value is IState state) {
 			state.Run();
 		}
-
 		MoveAndSlide();
 	}
 }

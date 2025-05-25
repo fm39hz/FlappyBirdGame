@@ -1,12 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://0hnuinnie2gd"]
+[gd_scene load_steps=8 format=3 uid="uid://0hnuinnie2gd"]
 
 [ext_resource type="Script" uid="uid://vewohkkkjkit" path="res://src/Game/Environment/Pipe/PipeEntity.cs" id="1_6ehct"]
 [ext_resource type="Texture2D" uid="uid://6yxn0e7oc2lm" path="res://asset/pipe_green_bottom.png" id="2_6yl4e"]
 [ext_resource type="Texture2D" uid="uid://c3faclujnykho" path="res://asset/pipe_green_top.png" id="3_r34kr"]
 [ext_resource type="Script" uid="uid://dc72ie710ejar" path="res://src/Component/BirdKiller/BirdKillerComponent.cs" id="4_6ehct"]
+[ext_resource type="Script" uid="uid://ccljckoklugub" path="res://src/Component/ScoreRegister/ScoreRegisterComponent.cs" id="5_i4kpc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6yl4e"]
-size = Vector2(24, 160)
+size = Vector2(24, 162.5)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_t3ga4"]
+a = Vector2(0, -299.25)
+b = Vector2(0, -80.5)
 
 [node name="PipeEntity" type="StaticBody2D"]
 script = ExtResource("1_6ehct")
@@ -39,10 +44,17 @@ metadata/_custom_type_script = "uid://dc72ie710ejar"
 
 [node name="TopCollision" type="CollisionShape2D" parent="BirdKillerComponent"]
 unique_name_in_owner = true
-position = Vector2(0, -80)
+position = Vector2(0, -80.5)
 shape = SubResource("RectangleShape2D_6yl4e")
 
 [node name="BottomCollision" type="CollisionShape2D" parent="BirdKillerComponent"]
 unique_name_in_owner = true
-position = Vector2(0, -300)
+position = Vector2(0, -299.25)
 shape = SubResource("RectangleShape2D_6yl4e")
+
+[node name="ScoreRegisterComponent" type="Area2D" parent="."]
+script = ExtResource("5_i4kpc")
+metadata/_custom_type_script = "uid://ccljckoklugub"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreRegisterComponent"]
+shape = SubResource("SegmentShape2D_t3ga4")
