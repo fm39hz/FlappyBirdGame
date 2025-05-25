@@ -3,15 +3,14 @@
 [ext_resource type="Script" uid="uid://vewohkkkjkit" path="res://src/Game/Environment/Pipe/PipeEntity.cs" id="1_6ehct"]
 [ext_resource type="Texture2D" uid="uid://6yxn0e7oc2lm" path="res://asset/pipe_green_bottom.png" id="2_6yl4e"]
 [ext_resource type="Texture2D" uid="uid://c3faclujnykho" path="res://asset/pipe_green_top.png" id="3_r34kr"]
-[ext_resource type="Script" uid="uid://dc72ie710ejar" path="res://src/Component/BirdKillerComponent/BirdKillerComponent.cs" id="4_6ehct"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r34kr"]
+[ext_resource type="Script" uid="uid://dc72ie710ejar" path="res://src/Component/BirdKiller/BirdKillerComponent.cs" id="4_6ehct"]
+[ext_resource type="Script" uid="uid://buyiig6a45w3b" path="res://src/Component/Movement/MovementComponent.cs" id="5_i4kpc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6yl4e"]
 size = Vector2(24, 160)
 
-[node name="PipeEntity" type="StaticBody2D"]
-physics_material_override = SubResource("PhysicsMaterial_r34kr")
+[node name="PipeEntity" type="CharacterBody2D"]
+motion_mode = 1
 script = ExtResource("1_6ehct")
 metadata/_custom_type_script = "uid://vewohkkkjkit"
 
@@ -25,7 +24,18 @@ unique_name_in_owner = true
 position = Vector2(0, -300)
 texture = ExtResource("3_r34kr")
 
+[node name="Bottom" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -80)
+shape = SubResource("RectangleShape2D_6yl4e")
+
+[node name="Top" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -300)
+shape = SubResource("RectangleShape2D_6yl4e")
+
 [node name="BirdKillerComponent" type="Area2D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("4_6ehct")
 metadata/_custom_type_script = "uid://dc72ie710ejar"
 
@@ -39,12 +49,6 @@ unique_name_in_owner = true
 position = Vector2(0, -300)
 shape = SubResource("RectangleShape2D_6yl4e")
 
-[node name="Bottom" type="CollisionShape2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -80)
-shape = SubResource("RectangleShape2D_6yl4e")
-
-[node name="Top" type="CollisionShape2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -300)
-shape = SubResource("RectangleShape2D_6yl4e")
+[node name="MovementComponent" type="Node" parent="."]
+script = ExtResource("5_i4kpc")
+metadata/_custom_type_script = "uid://buyiig6a45w3b"

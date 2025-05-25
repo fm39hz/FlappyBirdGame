@@ -1,14 +1,14 @@
 namespace FlappyBirdGame.Game.Environment.Pipe;
 
+using Entity.Behaviour;
 using Entity.Environment;
 using Utils.Extension;
 
-public interface IPipeEntity : IEnvironmentEntity;
+public interface IPipeEntity : IMoveableEntity;
 
-[GlobalClass]
 [Id(nameof(PipeEntity))]
 [Meta(typeof(IAutoNode))]
-public partial class PipeEntity : EnvironmentEntity, IPipeEntity {
+public partial class PipeEntity : MoveableEnvironmentEntity, IPipeEntity {
 	[Node] public CollisionShape2D Top { get; set; } = null!;
 	[Node] public CollisionShape2D Bottom { get; set; } = null!;
 	[Node] public Sprite2D TopPipe { get; set; } = null!;
