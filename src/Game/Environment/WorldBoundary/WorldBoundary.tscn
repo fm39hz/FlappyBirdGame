@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://8qcgq7bm88he"]
 
 [ext_resource type="Script" uid="uid://bsopkqjb1uxn5" path="res://src/Entity/Environment/EnvironmentEntity.cs" id="1_xad3h"]
-[ext_resource type="Script" path="res://src/Component/BirdKillerComponent/BirdKillerComponent.cs" id="2_kl401"]
+[ext_resource type="Script" uid="uid://dc72ie710ejar" path="res://src/Component/BirdKiller/BirdKillerComponent.cs" id="2_kl401"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kl401"]
 

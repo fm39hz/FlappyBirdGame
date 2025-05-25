@@ -1,0 +1,12 @@
+@startuml GameStateMachine
+state "GameStateMachine State" as FlappyBirdGame_Map_Levels_GameStateMachine_State {
+  state "End" as FlappyBirdGame_Map_Levels_GameStateMachine_State_End
+  state "Play" as FlappyBirdGame_Map_Levels_GameStateMachine_State_Play
+  state "Wait" as FlappyBirdGame_Map_Levels_GameStateMachine_State_Wait
+}
+
+FlappyBirdGame_Map_Levels_GameStateMachine_State_End --> FlappyBirdGame_Map_Levels_GameStateMachine_State_Wait : Reset
+FlappyBirdGame_Map_Levels_GameStateMachine_State_Play --> FlappyBirdGame_Map_Levels_GameStateMachine_State_End : Stop
+FlappyBirdGame_Map_Levels_GameStateMachine_State_Wait --> FlappyBirdGame_Map_Levels_GameStateMachine_State_Play : Start
+[*] --> FlappyBirdGame_Map_Levels_GameStateMachine_State_Wait
+@enduml
