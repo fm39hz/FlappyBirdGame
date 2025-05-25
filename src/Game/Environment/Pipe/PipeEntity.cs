@@ -23,6 +23,7 @@ public partial class PipeEntity : EnvironmentEntity, IPipeEntity {
 		if (IsCollided) {
 			return;
 		}
+
 		Position += Vector2.Left * Speed * (float)delta;
 
 		if (Position.X < -100) {

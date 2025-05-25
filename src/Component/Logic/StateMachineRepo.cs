@@ -1,7 +1,6 @@
 namespace FlappyBirdGame.Component.Logic;
 
 using Chickensoft.Collections;
-using Action = Action;
 
 public interface IStateMachineRepo : IRepository {
 	public IAutoProp<string> CurrentState { get; }

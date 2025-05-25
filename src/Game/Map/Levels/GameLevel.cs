@@ -10,8 +10,8 @@ public interface IGameLevel : IWorld;
 [GlobalClass]
 [Meta(typeof(IAutoNode))]
 public partial class GameLevel : World, IGameLevel {
-	private readonly Random _random = new();
 	private readonly Queue<PipeEntity> _pipeQueue = new();
+	private readonly Random _random = new();
 	[Node] private Timer Timer { get; set; } = null!;
 
 	[Export] public PackedScene PipeScene { get; set; } = null!;

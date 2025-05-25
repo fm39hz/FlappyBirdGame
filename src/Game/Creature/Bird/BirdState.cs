@@ -67,9 +67,9 @@ public partial class BirdStateMachine {
 					});
 				}
 
-				public Transition On(in Input.Flap input) => To<Flap>();
-
 				public void Run() => Output(new Output.FallDown());
+
+				public Transition On(in Input.Flap input) => To<Flap>();
 			}
 
 			/// <summary>
@@ -84,6 +84,8 @@ public partial class BirdStateMachine {
 					OnDetach(() => Get<Timer>().Timeout -= OnTimeOut);
 				}
 
+				public void Run() => Output(new Output.FlyUp());
+
 				public Transition On(in Input.Fall input) => To<Fall>();
 
 				private void OnSetTime() {
@@ -93,7 +95,6 @@ public partial class BirdStateMachine {
 				}
 
 				private void OnTimeOut() => Input(new Input.Fall());
-				public void Run() => Output(new Output.FlyUp());
 			}
 		}
 

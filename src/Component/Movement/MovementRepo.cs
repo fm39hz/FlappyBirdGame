@@ -1,7 +1,6 @@
 namespace GameBoilerPlate.Component.Movement;
 
 using Chickensoft.Collections;
-using Action = System.Action;
 
 /// <summary>
 ///     MovementRepo is a repository for handling movement events.

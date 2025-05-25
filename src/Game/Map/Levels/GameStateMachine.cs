@@ -7,6 +7,8 @@ public interface IGameStateMachine : IStateMachine;
 [Meta]
 [LogicBlock(typeof(State), Diagram = true)]
 public partial class GameStateMachine : LogicBlock<GameStateMachine.State>, IGameStateMachine {
+	public override Transition GetInitialState() => To<State.Wait>();
+
 	public record Input {
 		public readonly record struct Start;
 
@@ -35,6 +37,4 @@ public partial class GameStateMachine : LogicBlock<GameStateMachine.State>, IGam
 			public Transition On(in Input.Reset input) => To<Wait>();
 		}
 	}
-
-	public override Transition GetInitialState() => To<State.Wait>();
 }

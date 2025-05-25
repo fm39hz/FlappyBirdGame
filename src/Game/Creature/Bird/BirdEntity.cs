@@ -1,7 +1,6 @@
 namespace FlappyBirdGame.Game.Creature;
 
 using Chickensoft.Log;
-using Component.Input;
 using Entity.Behaviour;
 using Entity.Creature;
 using FlappyBirdGame.Map.Levels;
@@ -14,11 +13,13 @@ public interface IBirdEntity : IStateMachineEntity<BirdStateMachine>, IAnimalEnt
 [Id(nameof(BirdEntity))]
 [Meta(typeof(IAutoNode))]
 public partial class BirdEntity : AnimalEntity, IBirdEntity {
+	private readonly Log _logger = new(nameof(BirdEntity));
 	[Node] private Timer Timer { get; set; } = null!;
 	[Node] private Sprite2D Sprite2D { get; set; } = null!;
 	private bool IsCollided { get; set; }
 
-	private readonly Log _logger = new(nameof(BirdEntity));
+	[Export] public float Gravity { get; set; } = 5f;
+	[Export] public float JumpForce { get; set; } = 5f;
 	public BirdStateMachine StateMachine { get; private set; } = null!;
 
 	public void Collide() {
@@ -26,9 +27,6 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 		IsCollided = true;
 		StateMachine.Input(new BirdStateMachine.Input.Collide());
 	}
-
-	[Export] public float Gravity { get; set; } = 5f;
-	[Export] public float JumpForce { get; set; } = 5f;
 
 	public void OnProvided() {
 		this.ResolveComponent();
