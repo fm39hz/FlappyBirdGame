@@ -8,6 +8,12 @@ using FlappyBirdGame.Map.Levels;
 using JetBrains.Annotations;
 
 public partial class BirdStateMachine {
+	private void Reset(bool isPressed) {
+		if (isPressed) {
+			Input(new Input.Reset());
+		}
+	}
+
 	private void Flap(bool isPressed) {
 		if (isPressed) {
 			Input(new Input.Fall());
@@ -17,8 +23,9 @@ public partial class BirdStateMachine {
 	}
 
 	public override Transition GetInitialState() {
-		using (var actionInput = Get<IActionInputRepo>()) {
-			actionInput.ActionButton.IsPressed.Changed += Flap;
+		using (var input = Get<IActionInputRepo>()) {
+			input.ActionButton.IsPressed.Changed += Flap;
+			input.ResetButton.IsPressed.Changed += Reset;
 		}
 
 		return To<State.Wait>();
@@ -38,7 +45,11 @@ public partial class BirdStateMachine {
 		/// <summary>
 		///     The bird flap in the air, wait for user's first Tap/Input
 		/// </summary>
-		public sealed record Wait() : State("Flap"), IGet<Input.Flap> {
+		public sealed record Wait : State, IGet<Input.Flap> {
+			public Wait() : base("Flap") {
+				this.OnEnter(() => Output(new Output.Reset()));
+			}
+
 			public Transition On(in Input.Flap input) {
 				var game = Get<GameLevel>();
 				game.Start();
@@ -101,9 +112,8 @@ public partial class BirdStateMachine {
 		/// <summary>
 		///     The bird's dead, constantly falling out of screen
 		/// </summary>
-		public sealed record Dead() : State("RESET"), IGet<Input.Flap> {
-			public Transition On(in Input.Flap input) {
-				Output(new Output.Reset());
+		public sealed record Dead() : State("RESET"), IGet<Input.Reset> {
+			public Transition On(in Input.Reset input) {
 				var game = Get<GameLevel>();
 				game.Reset();
 				return To<Wait>();

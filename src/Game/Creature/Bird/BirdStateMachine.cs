@@ -11,6 +11,7 @@ public interface IBirdStateMachine : IStateMachine;
 [LogicBlock(typeof(State), Diagram = true)]
 public sealed partial class BirdStateMachine : LogicBlock<BirdStateMachine.State>, IBirdStateMachine {
 	public static class Input {
+		public readonly record struct Reset;
 		public readonly record struct Flap;
 
 		public readonly record struct Fall;

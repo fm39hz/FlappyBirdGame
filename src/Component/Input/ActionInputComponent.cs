@@ -9,7 +9,10 @@ public interface IActionInputComponent : IComponentRepo<IActionInputRepo, IAnima
 [Id(nameof(ActionInputComponent))]
 [Meta(typeof(IAutoNode))]
 public partial class ActionInputComponent : Node, IActionInputComponent {
-	public override void _UnhandledInput(InputEvent @event) => Repo.ActionButton.PressButton(@event);
+	public override void _UnhandledInput(InputEvent @event) {
+		Repo.ResetButton.PressButton(@event);
+		Repo.ActionButton.PressButton(@event);
+	}
 
 	#region Data
 
