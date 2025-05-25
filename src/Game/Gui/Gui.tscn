@@ -1,29 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://dlwylj2hpslkh"]
-
-[ext_resource type="Script" uid="uid://djpubogmt7yvl" path="res://src/Game/Gui/FpsCounter.cs" id="1_fuyml"]
+[gd_scene format=3 uid="uid://dlwylj2hpslkh"]
 
 [node name="GUI" type="CanvasLayer"]
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer"]
-visible = false
 layout_mode = 2
 
-[node name="FpsCounter" type="Label" parent="AspectRatioContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="AspectRatioContainer/VBoxContainer"]
 layout_mode = 2
-script = ExtResource("1_fuyml")
-
-[node name="SaveButton" type="Button" parent="."]
-visible = false
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -50.0
-offset_top = 4.0
-offset_right = -6.0
-offset_bottom = 35.0
-grow_horizontal = 0
-text = "Save"
+text = "0"
+horizontal_alignment = 1
