@@ -24,8 +24,6 @@ public partial class GameStateMachine : LogicBlock<GameStateMachine.State>, IGam
 			public Play() {
 				using var spawnTimer = new Timer();
 				var world = Get<GameLevel>();
-				spawnTimer.WaitTime = world.PipeSpawnInterval;
-				spawnTimer.Timeout += world.SpawnPipeSet;
 				world.AddChild(spawnTimer);
 				spawnTimer.Start();
 			}

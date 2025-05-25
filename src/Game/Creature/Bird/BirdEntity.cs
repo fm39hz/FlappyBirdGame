@@ -1,8 +1,10 @@
 namespace FlappyBirdGame.Game.Creature;
 
 using Chickensoft.Log;
+using Component.Input;
 using Entity.Behaviour;
 using Entity.Creature;
+using FlappyBirdGame.Map.Levels;
 using Utils.Extension;
 
 public interface IBirdEntity : IStateMachineEntity<BirdStateMachine>, IAnimalEntity {
@@ -14,11 +16,14 @@ public interface IBirdEntity : IStateMachineEntity<BirdStateMachine>, IAnimalEnt
 public partial class BirdEntity : AnimalEntity, IBirdEntity {
 	[Node] private Timer Timer { get; set; } = null!;
 	[Node] private Sprite2D Sprite2D { get; set; } = null!;
+	private bool IsCollided { get; set; }
 
 	private readonly Log _logger = new(nameof(BirdEntity));
 	public BirdStateMachine StateMachine { get; private set; } = null!;
+
 	public void Collide() {
-		_logger.Print("Collide");
+		_logger.Print("Game Ended");
+		IsCollided = true;
 		StateMachine.Input(new BirdStateMachine.Input.Collide());
 	}
 
@@ -28,6 +33,7 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 	public void OnProvided() {
 		this.ResolveComponent();
 		StateMachine = this.RegisterToStateMachine(new BirdStateMachine());
+		StateMachine.Set(EntityTable.Get<GameLevel>(nameof(GameLevel))!);
 		StateMachine.Set(Timer);
 		var binding = StateMachine.Bind();
 		binding.Handle((in BirdStateMachine.Output.RotationChange output) => {
@@ -41,6 +47,10 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 	}
 
 	public override void _PhysicsProcess(double delta) {
+		if (IsCollided) {
+			return;
+		}
+
 		if (StateMachine.Value is IState state) {
 			state.Run();
 		}

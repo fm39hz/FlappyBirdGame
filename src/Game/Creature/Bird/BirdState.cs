@@ -4,6 +4,7 @@ using Chickensoft.Log;
 using Chickensoft.LogicBlocks;
 using Component.Animation;
 using Component.Input;
+using FlappyBirdGame.Map.Levels;
 using JetBrains.Annotations;
 
 public partial class BirdStateMachine {
@@ -38,7 +39,11 @@ public partial class BirdStateMachine {
 		///     The bird flap in the air, wait for user's first Tap/Input
 		/// </summary>
 		public sealed record Wait() : State("Flap"), IGet<Input.Flap> {
-			public Transition On(in Input.Flap input) => To<Alive.Flap>();
+			public Transition On(in Input.Flap input) {
+				var game = Get<GameLevel>();
+				game.Start();
+				return To<Alive.Flap>();
+			}
 		}
 
 		/// <summary>
@@ -46,7 +51,11 @@ public partial class BirdStateMachine {
 		/// </summary>
 		public abstract record Alive([UsedImplicitly] string AnimationName)
 			: State(AnimationName), IGet<Input.Collide> {
-			public Transition On(in Input.Collide input) => To<Dead>();
+			public Transition On(in Input.Collide input) {
+				var game = Get<GameLevel>();
+				game.Stop();
+				return To<Dead>();
+			}
 
 			/// <summary>
 			///     When Player is not tap, the bird will fall down

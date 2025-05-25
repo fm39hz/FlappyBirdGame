@@ -1,5 +1,6 @@
 namespace FlappyBirdGame.Map.Levels;
 
+using System.Collections.Generic;
 using Game.Environment.Pipe;
 using Game.Map;
 
@@ -9,22 +10,21 @@ public interface IGameLevel : IWorld;
 [GlobalClass]
 [Meta(typeof(IAutoNode))]
 public partial class GameLevel : World, IGameLevel {
-	private Timer _spawnTimer = null!;
 	private readonly Random _random = new();
+	private readonly Queue<PipeEntity> _pipeQueue = new();
+	[Node] private Timer Timer { get; set; } = null!;
 
 	[Export] public PackedScene PipeScene { get; set; } = null!;
 	[Export] public float PipeSpawnInterval { get; set; } = 3.0f;
 	[Export] public float GapSize { get; set; } = 100f;
 
-	public IGameStateMachine StateMachine { get; set; } = new GameStateMachine();
-
 	public override void _Ready() {
-		base._Ready();
-		StateMachine.Set(this);
-		StateMachine.Start();
+		Timer.WaitTime = PipeSpawnInterval;
+		Timer.Timeout += SpawnPipeSet;
+		EntityTable.Set(nameof(GameLevel), this);
 	}
 
-	public void SpawnPipeSet() {
+	private void SpawnPipeSet() {
 		if (PipeScene == null) {
 			GD.PrintErr("PipeScene not assigned!");
 			return;
@@ -39,6 +39,12 @@ public partial class GameLevel : World, IGameLevel {
 		var pipe = PipeScene.Instantiate<PipeEntity>();
 		pipe.Position = new Vector2(spawnX, screenGapY - pipeGapOffset);
 
+		_pipeQueue.Enqueue(pipe);
 		AddChild(pipe);
 	}
+
+	public void Start() => Timer.Start();
+	public void Stop() => Timer.Stop();
+
+	public void Reset() => _pipeQueue.Clear();
 }

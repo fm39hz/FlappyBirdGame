@@ -13,11 +13,16 @@ public partial class PipeEntity : EnvironmentEntity, IPipeEntity {
 	[Node] public Sprite2D TopPipe { get; set; } = null!;
 	[Node] public Sprite2D BottomPipe { get; set; } = null!;
 
+	public bool IsCollided { get; set; }
+
 	[Export] public float Speed { get; set; } = 100f;
 
 	public void OnProvided() => this.ResolveComponent();
 
 	public override void _PhysicsProcess(double delta) {
+		if (IsCollided) {
+			return;
+		}
 		Position += Vector2.Left * Speed * (float)delta;
 
 		if (Position.X < -100) {
