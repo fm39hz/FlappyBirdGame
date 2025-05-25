@@ -1,6 +1,7 @@
 namespace FlappyBirdGame.Map.Levels;
 
 using System.Collections.Generic;
+using System.Linq;
 using Game.Environment.Pipe;
 using Game.Map;
 
@@ -48,9 +49,11 @@ public partial class GameLevel : World, IGameLevel {
 
 	public void Reset() {
 		Timer.Stop();
-		foreach (var pipe in _pipeQueue) {
-			pipe.QueueFree();
+		while (_pipeQueue.Count > 0) {
+			var pipe = _pipeQueue.Dequeue();
+			if (IsInstanceValid(pipe)) {
+				pipe.QueueFree();
+			}
 		}
-		_pipeQueue.Clear();
 	}
 }
