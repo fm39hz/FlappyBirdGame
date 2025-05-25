@@ -1,7 +1,6 @@
 namespace FlappyBirdGame.Component.BirdKillerComponent;
 
 using Chickensoft.Collections;
-using Entity.Environment;
 using Game.Creature;
 
 public interface IBirdKillerComponent : IComponent, IArea2D;
