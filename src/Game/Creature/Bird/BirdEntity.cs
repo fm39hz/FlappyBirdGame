@@ -22,6 +22,8 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 	[Export] public float JumpForce { get; set; } = 5f;
 	public BirdStateMachine StateMachine { get; private set; } = null!;
 
+	private Vector2 StartPosition { get; set; } = Vector2.Zero;
+
 	public void Collide() {
 		_logger.Print("Game Ended");
 		IsCollided = true;
@@ -33,6 +35,7 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 		StateMachine = this.RegisterToStateMachine(new BirdStateMachine());
 		StateMachine.Set(EntityTable.Get<GameLevel>(nameof(GameLevel))!);
 		StateMachine.Set(Timer);
+		StartPosition = Position;
 		var binding = StateMachine.Bind();
 		binding.Handle((in BirdStateMachine.Output.RotationChange output) => {
 			Sprite2D.RotationDegrees += output.Degree;
@@ -40,6 +43,11 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 			Velocity += (Vector2.Up * JumpForce) + (Vector2.Down * Gravity);
 		}).Handle((in BirdStateMachine.Output.FallDown _) => {
 			Velocity += Vector2.Down * Gravity;
+		}).Handle((in BirdStateMachine.Output.Reset _) => {
+			Velocity = Vector2.Zero;
+			Sprite2D.RotationDegrees = 0;
+			Position = StartPosition;
+			IsCollided = false;
 		});
 		StateMachine.Start();
 	}

@@ -46,5 +46,11 @@ public partial class GameLevel : World, IGameLevel {
 	public void Start() => Timer.Start();
 	public void Stop() => Timer.Stop();
 
-	public void Reset() => _pipeQueue.Clear();
+	public void Reset() {
+		Timer.Stop();
+		foreach (var pipe in _pipeQueue) {
+			pipe.QueueFree();
+		}
+		_pipeQueue.Clear();
+	}
 }

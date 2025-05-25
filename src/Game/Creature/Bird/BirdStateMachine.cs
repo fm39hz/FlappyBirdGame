@@ -19,6 +19,7 @@ public sealed partial class BirdStateMachine : LogicBlock<BirdStateMachine.State
 	}
 
 	public static class Output {
+		public readonly record struct Reset;
 		public readonly record struct RotationChange(int Degree);
 
 		public readonly record struct FlyUp;

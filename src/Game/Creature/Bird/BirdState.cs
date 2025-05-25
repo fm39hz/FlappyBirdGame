@@ -101,6 +101,13 @@ public partial class BirdStateMachine {
 		/// <summary>
 		///     The bird's dead, constantly falling out of screen
 		/// </summary>
-		public sealed record Dead() : State("RESET");
+		public sealed record Dead() : State("RESET"), IGet<Input.Flap> {
+			public Transition On(in Input.Flap input) {
+				Output(new Output.Reset());
+				var game = Get<GameLevel>();
+				game.Reset();
+				return To<Wait>();
+			}
+		}
 	}
 }
