@@ -30,6 +30,10 @@ window/stretch/scale_mode="integer"
 
 project/assembly_name="FlappyBirdGame"
 
+[global_group]
+
+GUI="Gui related nodes"
+
 [gui]
 
 theme/default_theme_scale=2.0

@@ -23,6 +23,8 @@ public interface IScoreCounterRepo : IRepository {
 	/// Increases the current score by one. Update the high-score if necessary.
 	/// </summary>
 	public void Increase();
+
+	public void Reset();
 }
 
 public class ScoreCounterRepo(int highScore) : BaseRepository(nameof(ScoreCounterRepo)), IScoreCounterRepo {
@@ -32,4 +34,5 @@ public class ScoreCounterRepo(int highScore) : BaseRepository(nameof(ScoreCounte
 	public IAutoProp<int> HighScore => _highScore;
 
 	public void Increase() => _score.OnNext(_score.Value + 1);
+	public void Reset() => _score.OnNext(0);
 }

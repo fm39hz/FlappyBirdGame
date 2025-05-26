@@ -1,5 +1,6 @@
 namespace FlappyBirdGame.Component.ScoreCounter;
 
+using System.Linq;
 using Chickensoft.Collections;
 using Entity.Environment;
 using Game.Creature;
@@ -10,9 +11,20 @@ public interface IScoreCounterComponent : IComponentRepo<IScoreCounterRepo, IBir
 [Id(nameof(ScoreCounterComponent))]
 [Meta(typeof(IAutoNode))]
 public partial class ScoreCounterComponent : Node, IScoreCounterComponent {
+	private Label ScoreCounterGUI { get; set; } = null!;
+
+	private void OnScoreChanged(int score) => ScoreCounterGUI.Text = score.ToString();
+
 	#region Data
 
-	public void OnWireUp() { }
+	public override void _Ready() {
+		var a = GetTree();
+		if (a.GetFirstNodeInGroup("GUI") is Label scoreCounterGui) {
+			ScoreCounterGUI = scoreCounterGui;
+		}
+	}
+
+	public void OnWireUp() => Repo.Score.Changed += OnScoreChanged;
 
 	public IBirdEntity Entity => EntityTable.Get<IBirdEntity>(GetParent().Name)!;
 

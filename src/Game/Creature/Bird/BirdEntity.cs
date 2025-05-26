@@ -1,5 +1,6 @@
 namespace FlappyBirdGame.Game.Creature;
 
+using System.Linq;
 using Chickensoft.Log;
 using Component.ScoreCounter;
 using Entity.Behaviour;
@@ -52,6 +53,7 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 		}).Handle((in BirdStateMachine.Output.FallDown _) => {
 			Velocity += Vector2.Down * Gravity;
 		}).Handle((in BirdStateMachine.Output.Reset _) => {
+			ScoreCounterComponent.Repo.Reset();
 			Velocity = Vector2.Zero;
 			Sprite2D.RotationDegrees = 0;
 			Position = StartPosition;
@@ -68,6 +70,7 @@ public partial class BirdEntity : AnimalEntity, IBirdEntity {
 		if (StateMachine.Value is IState state) {
 			state.Run();
 		}
+
 		MoveAndSlide();
 	}
 }
