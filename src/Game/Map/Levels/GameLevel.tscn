@@ -1,11 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1by70gmptljo"]
+[gd_scene load_steps=8 format=3 uid="uid://c1by70gmptljo"]
 
 [ext_resource type="Texture2D" uid="uid://bll310yrc5tha" path="res://asset/background_day.png" id="1_iuw3j"]
 [ext_resource type="Script" uid="uid://cuyacxnit6etw" path="res://src/Game/Map/Levels/GameLevel.cs" id="1_odk08"]
 [ext_resource type="PackedScene" uid="uid://0hnuinnie2gd" path="res://src/Game/Environment/Pipe/PipeEntity.tscn" id="3_mvbfl"]
+[ext_resource type="Script" uid="uid://dc72ie710ejar" path="res://src/Component/BirdKiller/BirdKillerComponent.cs" id="4_m2o5r"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_odk08"]
 distance = -291.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_10bd7"]
+distance = -254.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_m2o5r"]
+normal = Vector2(0, 1)
 
 [node name="GameLevel" type="Node2D"]
 script = ExtResource("1_odk08")
@@ -23,3 +30,13 @@ shape = SubResource("WorldBoundaryShape2D_odk08")
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
+
+[node name="BirdKillerComponent" type="Area2D" parent="."]
+script = ExtResource("4_m2o5r")
+metadata/_custom_type_script = "uid://dc72ie710ejar"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BirdKillerComponent"]
+shape = SubResource("WorldBoundaryShape2D_10bd7")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="BirdKillerComponent"]
+shape = SubResource("WorldBoundaryShape2D_m2o5r")
