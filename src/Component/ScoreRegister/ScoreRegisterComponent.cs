@@ -9,10 +9,13 @@ public interface IScoreRegisterComponent : IArea2D, IComponent;
 [Id(nameof(ScoreRegisterComponent))]
 [Meta(typeof(IAutoNode))]
 public partial class ScoreRegisterComponent : Area2D, IScoreRegisterComponent {
-	private static void OnBodyEntered(Node2D body) {
-		if (body is IBirdEntity bird) {
-			bird.IncreaseScore();
+	private void OnBodyEntered(Node2D body) {
+		if (body is not IBirdEntity bird) {
+			return;
 		}
+
+		bird.IncreaseScore();
+		QueueFree();
 	}
 
 	#region Data
