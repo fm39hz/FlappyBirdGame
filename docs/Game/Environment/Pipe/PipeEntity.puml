@@ -1,0 +1,15 @@
+@startuml
+interface IPipeEntity {
+}
+class PipeEntity <<partial>> {
+    + TopPipe : Sprite2D <<get>> <<set>>
+    + BottomPipe : Sprite2D <<get>> <<set>>
+    + IsCollided : bool <<get>> <<set>>
+    + Speed : float <<get>> <<set>> = 100f
+    + OnProvided() : void
+    + <<override>> _PhysicsProcess(delta:double) : void
+}
+IEnvironmentEntity <|-- IPipeEntity
+EnvironmentEntity <|-- PipeEntity
+IPipeEntity <|-- PipeEntity
+@enduml

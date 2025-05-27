@@ -1,0 +1,14 @@
+@startuml
+interface IBirdKillerComponent {
+}
+class BirdKillerComponent <<partial>> {
+    + OnWireUp() : void
+    - OnBodyEntered(body:Node2D) : void
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+IComponent <|-- IBirdKillerComponent
+IArea2D <|-- IBirdKillerComponent
+Area2D <|-- BirdKillerComponent
+IBirdKillerComponent <|-- BirdKillerComponent
+@enduml

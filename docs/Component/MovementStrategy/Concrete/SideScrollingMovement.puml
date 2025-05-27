@@ -1,0 +1,7 @@
+@startuml
+class SideScrollingMovement {
+    + IsMove : bool <<get>>
+    + Move(velocity:Vector2) : Vector2
+}
+IMovementStrategy <|-- SideScrollingMovement
+@enduml

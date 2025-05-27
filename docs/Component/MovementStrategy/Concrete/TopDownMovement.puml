@@ -1,0 +1,7 @@
+@startuml
+class TopDownMovement {
+    + IsMove : bool <<get>>
+    + Move(velocity:Vector2) : Vector2
+}
+IMovementStrategy <|-- TopDownMovement
+@enduml

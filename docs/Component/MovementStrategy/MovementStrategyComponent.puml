@@ -1,0 +1,17 @@
+@startuml
+interface IMovementStrategyComponent {
+}
+class MovementStrategyComponent <<partial>> {
+    + <<override>> _Ready() : void
+    + <<override>> _PhysicsProcess(delta:double) : void
+    + MovementType : EInputType <<get>> <<set>>
+    + OnWireUp() : void
+    + Entity : IAnimalEntity <<get>>
+    + Repo : IMovementStrategyRepo <<get>>
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+"IComponentRepo`2" "<IMovementStrategyRepo,IAnimalEntity>" <|-- IMovementStrategyComponent
+Node <|-- MovementStrategyComponent
+IMovementStrategyComponent <|-- MovementStrategyComponent
+@enduml

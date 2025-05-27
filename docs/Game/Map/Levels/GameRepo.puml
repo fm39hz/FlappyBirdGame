@@ -1,0 +1,7 @@
+@startuml
+interface IGameRepo {
+}
+class GameRepo {
+}
+IRepository <|-- IGameRepo
+@enduml

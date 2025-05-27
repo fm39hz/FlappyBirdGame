@@ -1,0 +1,14 @@
+@startuml
+interface IBotanicalEntity {
+}
+class BotanicalEntity <<partial>> {
+    + Components : Dictionary<Type, IComponent> <<get>> <<set>>
+    - Value() : EntityTable
+    + EntityTable : EntityTable <<get>>
+    + OnResolved() : void
+    + <<override>> _Notification(what:int) : void
+}
+IStaticEntity <|-- IBotanicalEntity
+StaticBody2D <|-- BotanicalEntity
+IBotanicalEntity <|-- BotanicalEntity
+@enduml

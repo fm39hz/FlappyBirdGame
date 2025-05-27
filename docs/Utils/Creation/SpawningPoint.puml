@@ -1,0 +1,16 @@
+@startuml
+class SpawningPoint <<partial>> {
+    - <<const>> MAX_ATTEMPTS : int = 10
+    - <<readonly>> _entities : Queue<Node2D>
+    + TargetEntity : PackedScene <<get>> <<set>>
+    + SpawnInterval : Vector2 <<get>> <<set>>
+    + MaxSpawnCount : int <<get>> <<set>>
+    - Initialized : bool <<get>>
+    + <<override>> _Ready() : void
+    + <<override>> _PhysicsProcess(delta:double) : void
+    - Spawn() : void
+    - CorrectPosition(targetPosition:Vector2) : Vector2
+    - GetRandomPosition() : Vector2
+}
+Area2D <|-- SpawningPoint
+@enduml

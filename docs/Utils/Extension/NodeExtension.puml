@@ -1,0 +1,6 @@
+@startuml
+class NodeExtension <<static>> {
+    + {static} GetFirstChild(target:Node) : T
+    + {static} GetChildren(target:Node) : List<T>
+}
+@enduml

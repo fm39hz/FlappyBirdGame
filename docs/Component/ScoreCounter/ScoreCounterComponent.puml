@@ -1,0 +1,17 @@
+@startuml
+interface IScoreCounterComponent {
+}
+class ScoreCounterComponent <<partial>> {
+    - ScoreCounterGUI : Label <<get>> <<set>>
+    - OnScoreChanged(score:int) : void
+    + <<override>> _Ready() : void
+    + OnWireUp() : void
+    + Entity : IBirdEntity <<get>>
+    + Repo : IScoreCounterRepo <<get>>
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+"IComponentRepo`2" "<IScoreCounterRepo,IBirdEntity>" <|-- IScoreCounterComponent
+Node <|-- ScoreCounterComponent
+IScoreCounterComponent <|-- ScoreCounterComponent
+@enduml

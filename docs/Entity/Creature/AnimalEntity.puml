@@ -1,0 +1,15 @@
+@startuml
+interface IAnimalEntity {
+}
+class AnimalEntity <<partial>> {
+    + Components : Dictionary<Type, IComponent> <<get>> <<set>>
+    - Value() : EntityTable
+    + EntityTable : EntityTable <<get>>
+    + OnResolved() : void
+    + <<override>> _Notification(what:int) : void
+}
+IMoveableEntity <|-- IAnimalEntity
+IAnimatedEntity <|-- IAnimalEntity
+CharacterBody2D <|-- AnimalEntity
+IAnimalEntity <|-- AnimalEntity
+@enduml

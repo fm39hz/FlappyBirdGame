@@ -1,0 +1,7 @@
+@startuml
+class FollowPathMovement {
+    + Move(velocity:Vector2) : Vector2
+    + IsMove : bool <<get>>
+}
+IMovementStrategy <|-- FollowPathMovement
+@enduml

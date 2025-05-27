@@ -1,0 +1,6 @@
+@startuml
+interface IStaticEntity {
+}
+IStaticBody2D <|-- IStaticEntity
+IEntity <|-- IStaticEntity
+@enduml

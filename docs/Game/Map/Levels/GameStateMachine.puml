@@ -1,0 +1,45 @@
+@startuml
+interface IGameStateMachine {
+}
+class GameStateMachine <<partial>> {
+    + <<override>> GetInitialState() : Transition
+}
+class Input <<record>> {
+}
+class State <<record>> {
+}
+struct Start <<readonly>> <<record>> {
+}
+struct Stop <<readonly>> <<record>> {
+}
+struct Reset <<readonly>> <<record>> {
+}
+class Wait <<record>> {
+    + On(input:Input.Start) : Transition
+}
+class Play <<record>> {
+    + Play()
+    + On(input:Input.Stop) : Transition
+}
+class End <<record>> {
+    + On(input:Input.Reset) : Transition
+}
+IStateMachine <|-- IGameStateMachine
+"LogicBlock`1" "<GameStateMachine.State>" <|-- GameStateMachine
+IGameStateMachine <|-- GameStateMachine
+GameStateMachine +-- Input
+GameStateMachine +-- State
+"StateLogic`1" "<State>" <|-- State
+Input +-- Start
+Input +-- Stop
+Input +-- Reset
+State +-- Wait
+State <|-- Wait
+"IGet`1" "<Input.Start>" <|-- Wait
+State +-- Play
+State <|-- Play
+"IGet`1" "<Input.Stop>" <|-- Play
+State +-- End
+State <|-- End
+"IGet`1" "<Input.Reset>" <|-- End
+@enduml

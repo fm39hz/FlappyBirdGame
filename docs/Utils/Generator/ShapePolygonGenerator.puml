@@ -1,0 +1,8 @@
+@startuml
+class ShapePolygonGenerator <<static>> {
+    - <<const>> ACCURACY : float = 0.42f
+    - {static} GetSpriteInformation(spriteSheet:Sprite2D) : Vector2I
+    + {static} GetArea(spriteSheet:Sprite2D, bitmap:Bitmap, name:string) : Dictionary<int, CollisionPolygon2D>
+    - {static} ConfigPolygon(poly:Vector2[], position:Vector2, name:string) : CollisionPolygon2D
+}
+@enduml

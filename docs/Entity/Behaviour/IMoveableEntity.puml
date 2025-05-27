@@ -1,0 +1,6 @@
+@startuml
+interface IMoveableEntity {
+}
+ICharacterBody2D <|-- IMoveableEntity
+IEntity <|-- IMoveableEntity
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+interface IRepository {
+}
+abstract class BaseRepository {
+    # _isDisposed : bool
+    + <<virtual>> Dispose() : void
+}
+IDisposable <|-- IRepository
+IRepository <|-- BaseRepository
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+interface IMovementRepo {
+    + IsMoveable : IAutoProp<bool> <<get>>
+    + Speed : IAutoProp<float> <<get>>
+    + Acceleration : IAutoProp<float> <<get>>
+    + Friction : IAutoProp<float> <<get>>
+    +  <<event>> StartMoving : Action? 
+    +  <<event>> StopMoving : Action? 
+    + Move(isMoving:bool) : void
+}
+class MovementRepo {
+    + Move(isMoving:bool) : void
+    + <<override>> Dispose() : void
+    - <<readonly>> _isMoveable : AutoProp<bool>
+    + IsMoveable : IAutoProp<bool> <<get>>
+    - <<readonly>> _speed : AutoProp<float>
+    + Speed : IAutoProp<float> <<get>>
+    - <<readonly>> _acceleration : AutoProp<float>
+    + Acceleration : IAutoProp<float> <<get>>
+    - <<readonly>> _friction : AutoProp<float>
+    + Friction : IAutoProp<float> <<get>>
+    +  <<event>> StartMoving : Action? 
+    +  <<event>> StopMoving : Action? 
+    + MovementRepo()
+}
+IRepository <|-- IMovementRepo
+BaseRepository <|-- MovementRepo
+IMovementRepo <|-- MovementRepo
+@enduml

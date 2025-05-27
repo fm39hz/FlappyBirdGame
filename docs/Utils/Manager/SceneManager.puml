@@ -1,0 +1,13 @@
+@startuml
+class SceneManager {
+    - CurrentScene : Node <<get>> <<set>>
+    - GameContainer : Node <<get>> <<set>>
+    + {static} LoadContainer(path:string, carryOverEntities:List<Node>) : void
+    + {static} LoadContainer(nextScene:PackedScene, carryOverEntities:List<Node>) : void
+    - {static} LoadContainer(nextScene:Node, carryOverEntities:List<Node>) : void
+    + {static} GotoScene(path:string, carryOverEntities:List<Node2D>) : void
+    + {static} GotoScene(nextScene:PackedScene, carryOverEntities:List<Node2D>) : void
+    - {static} GotoScene(level:Node, carryOverEntities:List<Node2D>) : void
+}
+"Singleton`1" "<SceneManager>" <|-- SceneManager
+@enduml

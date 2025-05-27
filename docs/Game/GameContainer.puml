@@ -1,0 +1,13 @@
+@startuml
+interface IGameContainer {
+}
+class GameContainer <<partial>> {
+    + Level : PackedScene? <<get>> <<set>>
+    + Player : PackedScene? <<get>> <<set>>
+    + <<override>> _Ready() : void
+    + Quit() : void
+}
+IControl <|-- IGameContainer
+Control <|-- GameContainer
+IGameContainer <|-- GameContainer
+@enduml

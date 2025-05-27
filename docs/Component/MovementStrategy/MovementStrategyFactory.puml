@@ -1,0 +1,5 @@
+@startuml
+class MovementStrategyFactory <<static>> {
+    + {static} Create(inputType:EInputType) : IMovementStrategy
+}
+@enduml

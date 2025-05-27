@@ -1,0 +1,23 @@
+@startuml
+interface IStateMachineRepo {
+    + CurrentState : IAutoProp<string> <<get>>
+    + PreviousState : IAutoProp<string> <<get>>
+    +  <<event>> StateChanged : Action? 
+    + ChangeState(state:IState) : void
+}
+class StateMachineRepo {
+    - <<readonly>> _currentState : AutoProp<string>
+    - <<readonly>> _previousState : AutoProp<string>
+    + StateMachineRepo()
+    <<internal>> StateMachineRepo(currentState:string, previousState:string)
+    <<internal>> StateMachineRepo(currentState:AutoProp<string>, previousState:AutoProp<string>)
+    + CurrentState : IAutoProp<string> <<get>>
+    + PreviousState : IAutoProp<string> <<get>>
+    +  <<event>> StateChanged : Action? 
+    + ChangeState(state:IState) : void
+    + <<override>> Dispose() : void
+}
+IRepository <|-- IStateMachineRepo
+BaseRepository <|-- StateMachineRepo
+IStateMachineRepo <|-- StateMachineRepo
+@enduml

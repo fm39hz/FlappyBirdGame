@@ -1,0 +1,18 @@
+@startuml
+interface IMovementComponent {
+    + Move(velocity:Vector2) : void
+    + StopMovement() : void
+}
+class MovementComponent <<partial>> {
+    + Move(velocity:Vector2) : void
+    + StopMovement() : void
+    + OnWireUp() : void
+    + Repo : IMovementRepo <<get>>
+    + Entity : IMoveableEntity <<get>>
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+"IComponentRepo`2" "<IMovementRepo,IMoveableEntity>" <|-- IMovementComponent
+Node <|-- MovementComponent
+IMovementComponent <|-- MovementComponent
+@enduml

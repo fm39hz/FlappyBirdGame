@@ -1,0 +1,674 @@
+@startuml
+left to right direction
+class Main <<partial>> {
+    + GameContainer : PackedScene <<get>> <<set>>
+    + Gui : PackedScene <<get>> <<set>>
+    + <<override>> _Ready() : void
+    - RunScene() : void
+}
+Node2D <|-- Main
+interface IComponent {
+    + EntityTable : EntityTable <<get>>
+    + OnWireUp() : void
+}
+interface "IComponentRepo`2"<out TRepo,out TEntity> {
+    + Entity : TEntity <<get>>
+    + Repo : TRepo <<get>>
+}
+INode <|-- IComponent
+IComponent <|-- "IComponentRepo`2"
+interface IState {
+    + Run() : void
+}
+interface IStateMachine {
+    + Start() : void
+    + Set(data:TData) : void
+}
+ILogicBlockBase <|-- IStateMachine
+interface IEntity {
+    + Components : Dictionary<Type, IComponent> <<get>> <<set>>
+    + EntityTable : EntityTable <<get>>
+    + ResolveComponent() : void
+}
+INode <|-- IEntity
+"IProvide`1" "<EntityTable>" <|-- IEntity
+interface IRepository {
+}
+abstract class BaseRepository {
+    # _isDisposed : bool
+    + <<virtual>> Dispose() : void
+}
+IDisposable <|-- IRepository
+IRepository <|-- BaseRepository
+interface IGameContainer {
+}
+class GameContainer <<partial>> {
+    + Level : PackedScene? <<get>> <<set>>
+    + Player : PackedScene? <<get>> <<set>>
+    + <<override>> _Ready() : void
+    + Quit() : void
+}
+IControl <|-- IGameContainer
+Control <|-- GameContainer
+IGameContainer <|-- GameContainer
+interface IScoreCounterRepo {
+    + Score : IAutoProp<int> <<get>>
+    + HighScore : IAutoProp<int> <<get>>
+    + Increase() : void
+    + Reset() : void
+}
+class ScoreCounterRepo {
+    - <<readonly>> _score : AutoProp<int>
+    + Score : IAutoProp<int> <<get>>
+    - <<readonly>> _highScore : AutoProp<int>
+    + HighScore : IAutoProp<int> <<get>>
+    + Increase() : void
+    + Reset() : void
+}
+IRepository <|-- IScoreCounterRepo
+BaseRepository <|-- ScoreCounterRepo
+IScoreCounterRepo <|-- ScoreCounterRepo
+interface IScoreCounterComponent {
+}
+class ScoreCounterComponent <<partial>> {
+    - ScoreCounterGUI : Label <<get>> <<set>>
+    - OnScoreChanged(score:int) : void
+    + <<override>> _Ready() : void
+    + OnWireUp() : void
+    + Entity : IBirdEntity <<get>>
+    + Repo : IScoreCounterRepo <<get>>
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+"IComponentRepo`2" "<IScoreCounterRepo,IBirdEntity>" <|-- IScoreCounterComponent
+Node <|-- ScoreCounterComponent
+IScoreCounterComponent <|-- ScoreCounterComponent
+interface IStateMachineComponent {
+}
+class StateMachineComponent <<partial>> {
+    + OnWireUp() : void
+    + Repo : IStateMachineRepo <<get>>
+    + Entity : IEntity <<get>>
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+"IComponentRepo`2" "<IStateMachineRepo,IEntity>" <|-- IStateMachineComponent
+Node <|-- StateMachineComponent
+IStateMachineComponent <|-- StateMachineComponent
+interface IStateMachineRepo {
+    + CurrentState : IAutoProp<string> <<get>>
+    + PreviousState : IAutoProp<string> <<get>>
+    +  <<event>> StateChanged : Action?
+    + ChangeState(state:IState) : void
+}
+class StateMachineRepo {
+    - <<readonly>> _currentState : AutoProp<string>
+    - <<readonly>> _previousState : AutoProp<string>
+    + StateMachineRepo()
+    <<internal>> StateMachineRepo(currentState:string, previousState:string)
+    <<internal>> StateMachineRepo(currentState:AutoProp<string>, previousState:AutoProp<string>)
+    + CurrentState : IAutoProp<string> <<get>>
+    + PreviousState : IAutoProp<string> <<get>>
+    +  <<event>> StateChanged : Action?
+    + ChangeState(state:IState) : void
+    + <<override>> Dispose() : void
+}
+IRepository <|-- IStateMachineRepo
+BaseRepository <|-- StateMachineRepo
+IStateMachineRepo <|-- StateMachineRepo
+interface IMovementComponent {
+    + Move(velocity:Vector2) : void
+    + StopMovement() : void
+}
+class MovementComponent <<partial>> {
+    + Move(velocity:Vector2) : void
+    + StopMovement() : void
+    + OnWireUp() : void
+    + Repo : IMovementRepo <<get>>
+    + Entity : IMoveableEntity <<get>>
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+"IComponentRepo`2" "<IMovementRepo,IMoveableEntity>" <|-- IMovementComponent
+Node <|-- MovementComponent
+IMovementComponent <|-- MovementComponent
+interface IMovementRepo {
+    + IsMoveable : IAutoProp<bool> <<get>>
+    + Speed : IAutoProp<float> <<get>>
+    + Acceleration : IAutoProp<float> <<get>>
+    + Friction : IAutoProp<float> <<get>>
+    +  <<event>> StartMoving : Action?
+    +  <<event>> StopMoving : Action?
+    + Move(isMoving:bool) : void
+}
+class MovementRepo {
+    + Move(isMoving:bool) : void
+    + <<override>> Dispose() : void
+    - <<readonly>> _isMoveable : AutoProp<bool>
+    + IsMoveable : IAutoProp<bool> <<get>>
+    - <<readonly>> _speed : AutoProp<float>
+    + Speed : IAutoProp<float> <<get>>
+    - <<readonly>> _acceleration : AutoProp<float>
+    + Acceleration : IAutoProp<float> <<get>>
+    - <<readonly>> _friction : AutoProp<float>
+    + Friction : IAutoProp<float> <<get>>
+    +  <<event>> StartMoving : Action?
+    +  <<event>> StopMoving : Action?
+    + MovementRepo()
+}
+IRepository <|-- IMovementRepo
+BaseRepository <|-- MovementRepo
+IMovementRepo <|-- MovementRepo
+interface IScoreRegisterComponent {
+}
+class ScoreRegisterComponent <<partial>> {
+    - OnBodyEntered(body:Node2D) : void
+    + OnWireUp() : void
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+IArea2D <|-- IScoreRegisterComponent
+IComponent <|-- IScoreRegisterComponent
+Area2D <|-- ScoreRegisterComponent
+IScoreRegisterComponent <|-- ScoreRegisterComponent
+interface IBirdKillerComponent {
+}
+class BirdKillerComponent <<partial>> {
+    + OnWireUp() : void
+    - OnBodyEntered(body:Node2D) : void
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+IComponent <|-- IBirdKillerComponent
+IArea2D <|-- IBirdKillerComponent
+Area2D <|-- BirdKillerComponent
+IBirdKillerComponent <|-- BirdKillerComponent
+interface IAnimationComponent {
+    + IsFourDirection : bool <<get>> <<set>>
+    + Animate(animation:string) : void
+}
+class AnimationComponent <<partial>> {
+    + Animate(animation:string) : void
+    + IsFourDirection : bool <<get>> <<set>>
+    - {static} <<partial>> Has8Direction() : Regex
+    + OnWireUp() : void
+    + Repo : IAnimationRepo <<get>>
+    + EntityTable : EntityTable <<get>>
+    + Entity : IAnimatedEntity <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+IAnimationPlayer <|-- IAnimationComponent
+"IComponentRepo`2" "<IAnimationRepo,IAnimatedEntity>" <|-- IAnimationComponent
+AnimationPlayer <|-- AnimationComponent
+IAnimationComponent <|-- AnimationComponent
+interface IAnimationRepo {
+    + Has8Direction : IAutoProp<bool> <<get>>
+    + AnimatedStateName : IAutoProp<string> <<get>>
+    + Direction : IAutoProp<EDirection> <<get>>
+    +  <<event>> AnimationChanged : Action<string>?
+    + ChangeState(state:string) : void
+    + ChangeAnimation(animation:string) : void
+    + ChangeDirection(direction:EDirection) : void
+}
+class AnimationRepo {
+    + <<override>> Dispose() : void
+    - <<readonly>> _has8Direction : AutoProp<bool>
+    + Has8Direction : IAutoProp<bool> <<get>>
+    - <<readonly>> _animatedStateName : AutoProp<string>
+    + AnimatedStateName : IAutoProp<string> <<get>>
+    - <<readonly>> _direction : AutoProp<EDirection>
+    + Direction : IAutoProp<EDirection> <<get>>
+    + AnimationRepo()
+    <<internal>> AnimationRepo(has8Direction:AutoProp<bool>, animatedStateName:AutoProp<string>, direction:AutoProp<EDirection>)
+    +  <<event>> AnimationChanged : Action<string>?
+    + ChangeState(state:string) : void
+    + ChangeAnimation(animation:string) : void
+    + ChangeDirection(direction:EDirection) : void
+}
+IRepository <|-- IAnimationRepo
+BaseRepository <|-- AnimationRepo
+IAnimationRepo <|-- AnimationRepo
+interface IActionInputRepo {
+    + ActionButton : ISingleInputRepo <<get>>
+    + ResetButton : ISingleInputRepo <<get>>
+}
+class ActionInputRepo {
+    + ActionButton : ISingleInputRepo <<get>>
+    + ResetButton : ISingleInputRepo <<get>>
+}
+IRepository <|-- IActionInputRepo
+BaseRepository <|-- ActionInputRepo
+IActionInputRepo <|-- ActionInputRepo
+interface ISingleInputRepo {
+    + IsPressed : IAutoProp<bool> <<get>>
+    + InputMap : IAutoProp<EInputMapping> <<get>>
+    + PressButton(inputEvent:InputEvent) : void
+}
+class SingleInputRepo {
+    + PressButton(inputEvent:InputEvent) : void
+    + <<override>> Dispose() : void
+    - <<readonly>> _isPressed : AutoProp<bool>
+    + IsPressed : IAutoProp<bool> <<get>>
+    - <<readonly>> _inputMap : AutoProp<EInputMapping>
+    + InputMap : IAutoProp<EInputMapping> <<get>>
+    <<internal>> SingleInputRepo(inputMap:EInputMapping)
+    <<internal>> SingleInputRepo(inputMap:AutoProp<EInputMapping>, isPressed:AutoProp<bool>)
+}
+IRepository <|-- ISingleInputRepo
+BaseRepository <|-- SingleInputRepo
+ISingleInputRepo <|-- SingleInputRepo
+interface IActionInputComponent {
+}
+class ActionInputComponent <<partial>> {
+    + <<override>> _UnhandledInput(@event:InputEvent) : void
+    + OnWireUp() : void
+    + Repo : IActionInputRepo <<get>>
+    + Entity : IAnimalEntity <<get>>
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+"IComponentRepo`2" "<IActionInputRepo,IAnimalEntity>" <|-- IActionInputComponent
+Node <|-- ActionInputComponent
+IActionInputComponent <|-- ActionInputComponent
+enum EInputType {
+    PathFollow,
+    User,
+}
+enum EInputView {
+    TopDown,
+    SideScrolling,
+}
+enum EInputMapping {
+    Left= 0,
+    Right= 1,
+    Up= 2,
+    Down= 3,
+    Exit= 4,
+    Action= 5,
+    Jump= 6,
+}
+class InputMapping {
+    - {static} <<readonly>> _keyMap : string[]
+    - {static} GetMappingValue(input:EInputMapping) : string
+    + {static} IsPressed(eInput:EInputMapping) : bool
+    + {static} IsJustPressed(eInput:EInputMapping) : bool
+    + {static} GetVector() : Vector2
+    + {static} GetHorizontalAxis() : float
+    + {static} GetVerticalAxis() : float
+}
+class MovementStrategyFactory <<static>> {
+    + {static} Create(inputType:EInputType) : IMovementStrategy
+}
+interface IMovementStrategyRepo {
+    + Strategy : IAutoProp<IMovementStrategy> <<get>>
+    + Velocity : IAutoProp<Vector2> <<get>>
+    + PressButton(velocity:Vector2) : void
+    +  <<event>> IsMoved : Action<Vector2>?
+    +  <<event>> StopMovement : Action?
+}
+interface IMovementStrategy {
+    + IsMove : bool <<get>>
+    + Move(velocity:Vector2) : Vector2
+}
+class MovementStrategyRepo {
+    + PressButton(velocity:Vector2) : void
+    + <<override>> Dispose() : void
+    - <<readonly>> _strategy : AutoProp<IMovementStrategy>
+    + Strategy : IAutoProp<IMovementStrategy> <<get>>
+    - <<readonly>> _velocity : AutoProp<Vector2>
+    + Velocity : IAutoProp<Vector2> <<get>>
+    +  <<event>> IsMoved : Action<Vector2>?
+    +  <<event>> StopMovement : Action?
+    <<internal>> MovementStrategyRepo(strategy:IMovementStrategy)
+}
+IRepository <|-- IMovementStrategyRepo
+BaseRepository <|-- MovementStrategyRepo
+IMovementStrategyRepo <|-- MovementStrategyRepo
+interface IMovementStrategyComponent {
+}
+class MovementStrategyComponent <<partial>> {
+    + <<override>> _Ready() : void
+    + <<override>> _PhysicsProcess(delta:double) : void
+    + MovementType : EInputType <<get>> <<set>>
+    + OnWireUp() : void
+    + Entity : IAnimalEntity <<get>>
+    + Repo : IMovementStrategyRepo <<get>>
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+"IComponentRepo`2" "<IMovementStrategyRepo,IAnimalEntity>" <|-- IMovementStrategyComponent
+Node <|-- MovementStrategyComponent
+IMovementStrategyComponent <|-- MovementStrategyComponent
+interface IWorld {
+}
+class World <<partial>> {
+    + EntityTable : EntityTable <<get>>
+    + <<virtual>> OnReady() : void
+    + <<override>> _Notification(what:int) : void
+    - Value() : EntityTable
+}
+INode2D <|-- IWorld
+"IProvide`1" "<EntityTable>" <|-- IWorld
+Node2D <|-- World
+IWorld <|-- World
+interface IMoveableEntity {
+}
+ICharacterBody2D <|-- IMoveableEntity
+IEntity <|-- IMoveableEntity
+interface "IStateMachineEntity`1"<out TStateMachine> {
+    + StateMachine : TStateMachine <<get>>
+}
+IEntity <|-- "IStateMachineEntity`1"
+interface IAnimatedEntity {
+}
+IEntity <|-- IAnimatedEntity
+interface IStaticEntity {
+}
+IStaticBody2D <|-- IStaticEntity
+IEntity <|-- IStaticEntity
+interface IBotanicalEntity {
+}
+class BotanicalEntity <<partial>> {
+    + Components : Dictionary<Type, IComponent> <<get>> <<set>>
+    - Value() : EntityTable
+    + EntityTable : EntityTable <<get>>
+    + OnResolved() : void
+    + <<override>> _Notification(what:int) : void
+}
+IStaticEntity <|-- IBotanicalEntity
+StaticBody2D <|-- BotanicalEntity
+IBotanicalEntity <|-- BotanicalEntity
+interface IAnimalEntity {
+}
+class AnimalEntity <<partial>> {
+    + Components : Dictionary<Type, IComponent> <<get>> <<set>>
+    - Value() : EntityTable
+    + EntityTable : EntityTable <<get>>
+    + OnResolved() : void
+    + <<override>> _Notification(what:int) : void
+}
+IMoveableEntity <|-- IAnimalEntity
+IAnimatedEntity <|-- IAnimalEntity
+CharacterBody2D <|-- AnimalEntity
+IAnimalEntity <|-- AnimalEntity
+interface IMoveableEnvironmentEntity {
+}
+class MoveableEnvironmentEntity <<partial>> {
+    + Components : Dictionary<Type, IComponent> <<get>> <<set>>
+    - Value() : EntityTable
+    + EntityTable : EntityTable <<get>>
+    + OnResolved() : void
+    + <<override>> _Notification(what:int) : void
+}
+IMoveableEntity <|-- IMoveableEnvironmentEntity
+IAnimatedEntity <|-- IMoveableEnvironmentEntity
+CharacterBody2D <|-- MoveableEnvironmentEntity
+IMoveableEnvironmentEntity <|-- MoveableEnvironmentEntity
+interface IEnvironmentEntity {
+}
+class EnvironmentEntity <<partial>> {
+    + Components : Dictionary<Type, IComponent> <<get>> <<set>>
+    - Value() : EntityTable
+    + EntityTable : EntityTable <<get>>
+    + OnResolved() : void
+    + <<override>> _Notification(what:int) : void
+}
+IStaticEntity <|-- IEnvironmentEntity
+IAnimatedEntity <|-- IEnvironmentEntity
+StaticBody2D <|-- EnvironmentEntity
+IEnvironmentEntity <|-- EnvironmentEntity
+class NodeExtension <<static>> {
+    + {static} GetFirstChild(target:Node) : T
+    + {static} GetChildren(target:Node) : List<T>
+}
+class ComponentExtensions <<static>> {
+    + {static} GetEntity(repo:IComponent) : T
+}
+class EntityExtension <<static>> {
+    + {static} ScanComponent(entity:IEntity) : Dictionary<Type, IComponent>
+    + {static} GetComponent(entity:IEntity, required:bool) : T
+    + {static} ResolveComponent(entity:IEntity) : void
+    + {static} RegisterToStateMachine(entity:IEntity, stateMachine:TStateMachine) : TStateMachine
+}
+enum EDirection {
+    South,
+    North,
+    East,
+    West,
+    SouthEast,
+    SouthWest,
+    NorthEast,
+    NorthWest,
+}
+class DirectionConverter <<static>> {
+    + {static} GetDirection(input:Vector2, isFourDirection:bool) : EDirection
+    + {static} Convert(direction:EDirection) : string
+    - {static} RoundDirection : Dictionary<Vector2, EDirection> <<get>>
+    - {static} CrossDirection : Dictionary<Vector2, EDirection> <<get>>
+}
+class ShapePolygonGenerator <<static>> {
+    - <<const>> ACCURACY : float = 0.42f
+    - {static} GetSpriteInformation(spriteSheet:Sprite2D) : Vector2I
+    + {static} GetArea(spriteSheet:Sprite2D, bitmap:Bitmap, name:string) : Dictionary<int, CollisionPolygon2D>
+    - {static} ConfigPolygon(poly:Vector2[], position:Vector2, name:string) : CollisionPolygon2D
+}
+abstract class SpawningPoint <<partial>> {
+    + {abstract} TargetEntity : Type <<get>>
+}
+Area2D <|-- SpawningPoint
+abstract class "Singleton`1"<T> {
+    # {static} <<readonly>> _instance : T
+    # <<readonly>> _tree : SceneTree
+}
+class SceneManager {
+    - CurrentScene : Node <<get>> <<set>>
+    - GameContainer : Node <<get>> <<set>>
+    + {static} LoadContainer(path:string, carryOverEntities:List<Node>) : void
+    + {static} LoadContainer(nextScene:PackedScene, carryOverEntities:List<Node>) : void
+    - {static} LoadContainer(nextScene:Node, carryOverEntities:List<Node>) : void
+    + {static} GotoScene(path:string, carryOverEntities:List<Node2D>) : void
+    + {static} GotoScene(nextScene:PackedScene, carryOverEntities:List<Node2D>) : void
+    - {static} GotoScene(level:Node, carryOverEntities:List<Node2D>) : void
+}
+"Singleton`1" "<SceneManager>" <|-- SceneManager
+enum EDimension {
+    TopDown,
+    SideScrolling,
+    Isometric,
+}
+class SettingManager {
+    + Dimension : EDimension <<get>> <<set>>
+}
+"Singleton`1" "<SettingManager>" <|-- SettingManager
+class SpawningPoint <<partial>> {
+    - <<const>> MAX_ATTEMPTS : int = 10
+    - <<readonly>> _entities : Queue<Node2D>
+    + TargetEntity : PackedScene <<get>> <<set>>
+    + SpawnInterval : Vector2 <<get>> <<set>>
+    + MaxSpawnCount : int <<get>> <<set>>
+    - Initialized : bool <<get>>
+    + <<override>> _Ready() : void
+    + <<override>> _PhysicsProcess(delta:double) : void
+    - Spawn() : void
+    - CorrectPosition(targetPosition:Vector2) : Vector2
+    - GetRandomPosition() : Vector2
+}
+Area2D <|-- SpawningPoint
+class TopDownMovement {
+    + IsMove : bool <<get>>
+    + Move(velocity:Vector2) : Vector2
+}
+IMovementStrategy <|-- TopDownMovement
+class FollowPathMovement {
+    + Move(velocity:Vector2) : Vector2
+    + IsMove : bool <<get>>
+}
+IMovementStrategy <|-- FollowPathMovement
+class SideScrollingMovement {
+    + IsMove : bool <<get>>
+    + Move(velocity:Vector2) : Vector2
+}
+IMovementStrategy <|-- SideScrollingMovement
+class BirdStateMachine <<partial>> {
+    - Reset(isPressed:bool) : void
+    - Flap(isPressed:bool) : void
+    + <<override>> GetInitialState() : Transition
+}
+abstract class State <<record>> {
+    - <<readonly>> _logger : Log
+    - State(animationName:string)
+}
+class Wait <<sealed>> <<record>> {
+    + Wait()
+    + On(input:Input.Flap) : Transition
+}
+abstract class Alive <<record>> {
+    + AnimationName : string <<get>> <<init>>
+    + On(input:Input.Collide) : Transition
+}
+class Dead <<sealed>> <<record>> {
+    + On(input:Input.Reset) : Transition
+}
+class Fall <<sealed>> <<record>> {
+    + Fall()
+    + Run() : void
+    + On(input:Input.Flap) : Transition
+}
+class Flap <<sealed>> <<record>> {
+    + Flap()
+    + Run() : void
+    + On(input:Input.Fall) : Transition
+    - OnSetTime() : void
+    - OnTimeOut() : void
+}
+BirdStateMachine +-- State
+"StateLogic`1" "<State>" <|-- State
+State +-- Wait
+State <|-- Wait
+"IGet`1" "<Input.Flap>" <|-- Wait
+State +-- Alive
+State <|-- Alive
+"IGet`1" "<Input.Collide>" <|-- Alive
+State +-- Dead
+State <|-- Dead
+"IGet`1" "<Input.Reset>" <|-- Dead
+Alive +-- Fall
+Alive <|-- Fall
+"IGet`1" "<Input.Flap>" <|-- Fall
+IState <|-- Fall
+Alive +-- Flap
+Alive <|-- Flap
+"IGet`1" "<Input.Fall>" <|-- Flap
+IState <|-- Flap
+interface IBirdStateMachine {
+}
+IStateMachine <|-- IBirdStateMachine
+"LogicBlock`1" "<BirdStateMachine.State>" <|-- BirdStateMachine
+IBirdStateMachine <|-- BirdStateMachine
+BirdStateMachine +-- Input
+BirdStateMachine +-- Output
+Input +-- Reset
+Input +-- Flap
+Input +-- Fall
+Input +-- Collide
+Output +-- Reset
+Output +-- RotationChange
+Output +-- FlyUp
+Output +-- FallDown
+interface IBirdEntity {
+    + Collide() : void
+    + IncreaseScore() : void
+}
+class BirdEntity <<partial>> {
+    - <<readonly>> _logger : Log
+    - Timer : Timer <<get>> <<set>>
+    - Sprite2D : Sprite2D <<get>> <<set>>
+    - ScoreCounterComponent : ScoreCounterComponent <<get>> <<set>>
+    - IsCollided : bool <<get>> <<set>>
+    + Gravity : float <<get>> <<set>> = 5f
+    + JumpForce : float <<get>> <<set>> = 5f
+    + StateMachine : BirdStateMachine <<get>>
+    - StartPosition : Vector2 <<get>> <<set>>
+    + IncreaseScore() : void
+    + Collide() : void
+    + OnProvided() : void
+    + <<override>> _PhysicsProcess(delta:double) : void
+}
+"IStateMachineEntity`1" "<BirdStateMachine>" <|-- IBirdEntity
+IAnimalEntity <|-- IBirdEntity
+AnimalEntity <|-- BirdEntity
+IBirdEntity <|-- BirdEntity
+interface IGameLevel {
+}
+class GameLevel <<partial>> {
+    - <<readonly>> _pipeQueue : Queue<PipeEntity>
+    - <<readonly>> _random : Random
+    - Timer : Timer <<get>> <<set>>
+    + PipeScene : PackedScene <<get>> <<set>>
+    + PipeSpawnInterval : float <<get>> <<set>> = 3.0f
+    + GapSize : float <<get>> <<set>> = 100f
+    + <<override>> _Ready() : void
+    - SpawnPipeSet() : void
+    + Start() : void
+    + Stop() : void
+    + Reset() : void
+}
+IWorld <|-- IGameLevel
+World <|-- GameLevel
+IGameLevel <|-- GameLevel
+interface IGameRepo {
+}
+class GameRepo {
+}
+IRepository <|-- IGameRepo
+interface IGameStateMachine {
+}
+class GameStateMachine <<partial>> {
+    + <<override>> GetInitialState() : Transition
+}
+class Input <<record>> {
+}
+class State <<record>> {
+}
+class Wait <<record>> {
+    + On(input:Input.Start) : Transition
+}
+class Play <<record>> {
+    + Play()
+    + On(input:Input.Stop) : Transition
+}
+class End <<record>> {
+    + On(input:Input.Reset) : Transition
+}
+IStateMachine <|-- IGameStateMachine
+"LogicBlock`1" "<GameStateMachine.State>" <|-- GameStateMachine
+IGameStateMachine <|-- GameStateMachine
+GameStateMachine +-- Input
+GameStateMachine +-- State
+"StateLogic`1" "<State>" <|-- State
+Input +-- Start
+Input +-- Stop
+Input +-- Reset
+State +-- Wait
+State <|-- Wait
+"IGet`1" "<Input.Start>" <|-- Wait
+State +-- Play
+State <|-- Play
+"IGet`1" "<Input.Stop>" <|-- Play
+State +-- End
+State <|-- End
+"IGet`1" "<Input.Reset>" <|-- End
+interface IPipeEntity {
+}
+class PipeEntity <<partial>> {
+    + TopPipe : Sprite2D <<get>> <<set>>
+    + BottomPipe : Sprite2D <<get>> <<set>>
+    + IsCollided : bool <<get>> <<set>>
+    + Speed : float <<get>> <<set>> = 100f
+    + OnProvided() : void
+    + <<override>> _PhysicsProcess(delta:double) : void
+}
+IEnvironmentEntity <|-- IPipeEntity
+EnvironmentEntity <|-- PipeEntity
+IPipeEntity <|-- PipeEntity
+@enduml

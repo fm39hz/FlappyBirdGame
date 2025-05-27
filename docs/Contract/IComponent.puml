@@ -1,0 +1,12 @@
+@startuml
+interface IComponent {
+    + EntityTable : EntityTable <<get>>
+    + OnWireUp() : void
+}
+interface "IComponentRepo`2"<out TRepo,out TEntity> {
+    + Entity : TEntity <<get>>
+    + Repo : TRepo <<get>>
+}
+INode <|-- IComponent
+IComponent <|-- "IComponentRepo`2"
+@enduml

@@ -1,0 +1,11 @@
+@startuml
+enum EDimension {
+    TopDown,
+    SideScrolling,
+    Isometric,
+}
+class SettingManager {
+    + Dimension : EDimension <<get>> <<set>>
+}
+"Singleton`1" "<SettingManager>" <|-- SettingManager
+@enduml

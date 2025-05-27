@@ -1,0 +1,5 @@
+@startuml
+interface IAnimatedEntity {
+}
+IEntity <|-- IAnimatedEntity
+@enduml

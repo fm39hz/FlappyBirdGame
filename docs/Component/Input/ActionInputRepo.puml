@@ -1,0 +1,13 @@
+@startuml
+interface IActionInputRepo {
+    + ActionButton : ISingleInputRepo <<get>>
+    + ResetButton : ISingleInputRepo <<get>>
+}
+class ActionInputRepo {
+    + ActionButton : ISingleInputRepo <<get>>
+    + ResetButton : ISingleInputRepo <<get>>
+}
+IRepository <|-- IActionInputRepo
+BaseRepository <|-- ActionInputRepo
+IActionInputRepo <|-- ActionInputRepo
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+interface IAnimationRepo {
+    + Has8Direction : IAutoProp<bool> <<get>>
+    + AnimatedStateName : IAutoProp<string> <<get>>
+    + Direction : IAutoProp<EDirection> <<get>>
+    +  <<event>> AnimationChanged : Action<string>? 
+    + ChangeState(state:string) : void
+    + ChangeAnimation(animation:string) : void
+    + ChangeDirection(direction:EDirection) : void
+}
+class AnimationRepo {
+    + <<override>> Dispose() : void
+    - <<readonly>> _has8Direction : AutoProp<bool>
+    + Has8Direction : IAutoProp<bool> <<get>>
+    - <<readonly>> _animatedStateName : AutoProp<string>
+    + AnimatedStateName : IAutoProp<string> <<get>>
+    - <<readonly>> _direction : AutoProp<EDirection>
+    + Direction : IAutoProp<EDirection> <<get>>
+    + AnimationRepo()
+    <<internal>> AnimationRepo(has8Direction:AutoProp<bool>, animatedStateName:AutoProp<string>, direction:AutoProp<EDirection>)
+    +  <<event>> AnimationChanged : Action<string>? 
+    + ChangeState(state:string) : void
+    + ChangeAnimation(animation:string) : void
+    + ChangeDirection(direction:EDirection) : void
+}
+IRepository <|-- IAnimationRepo
+BaseRepository <|-- AnimationRepo
+IAnimationRepo <|-- AnimationRepo
+@enduml

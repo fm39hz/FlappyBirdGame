@@ -1,0 +1,14 @@
+@startuml
+interface IScoreRegisterComponent {
+}
+class ScoreRegisterComponent <<partial>> {
+    - OnBodyEntered(body:Node2D) : void
+    + OnWireUp() : void
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+IArea2D <|-- IScoreRegisterComponent
+IComponent <|-- IScoreRegisterComponent
+Area2D <|-- ScoreRegisterComponent
+IScoreRegisterComponent <|-- ScoreRegisterComponent
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+interface IScoreCounterRepo {
+    + Score : IAutoProp<int> <<get>>
+    + HighScore : IAutoProp<int> <<get>>
+    + Increase() : void
+    + Reset() : void
+}
+class ScoreCounterRepo {
+    - <<readonly>> _score : AutoProp<int>
+    + Score : IAutoProp<int> <<get>>
+    - <<readonly>> _highScore : AutoProp<int>
+    + HighScore : IAutoProp<int> <<get>>
+    + Increase() : void
+    + Reset() : void
+}
+IRepository <|-- IScoreCounterRepo
+BaseRepository <|-- ScoreCounterRepo
+IScoreCounterRepo <|-- ScoreCounterRepo
+@enduml

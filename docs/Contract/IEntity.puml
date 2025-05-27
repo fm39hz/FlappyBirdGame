@@ -1,0 +1,9 @@
+@startuml
+interface IEntity {
+    + Components : Dictionary<Type, IComponent> <<get>> <<set>>
+    + EntityTable : EntityTable <<get>>
+    + ResolveComponent() : void
+}
+INode <|-- IEntity
+"IProvide`1" "<EntityTable>" <|-- IEntity
+@enduml

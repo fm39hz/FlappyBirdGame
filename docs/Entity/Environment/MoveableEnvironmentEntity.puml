@@ -1,0 +1,15 @@
+@startuml
+interface IMoveableEnvironmentEntity {
+}
+class MoveableEnvironmentEntity <<partial>> {
+    + Components : Dictionary<Type, IComponent> <<get>> <<set>>
+    - Value() : EntityTable
+    + EntityTable : EntityTable <<get>>
+    + OnResolved() : void
+    + <<override>> _Notification(what:int) : void
+}
+IMoveableEntity <|-- IMoveableEnvironmentEntity
+IAnimatedEntity <|-- IMoveableEnvironmentEntity
+CharacterBody2D <|-- MoveableEnvironmentEntity
+IMoveableEnvironmentEntity <|-- MoveableEnvironmentEntity
+@enduml

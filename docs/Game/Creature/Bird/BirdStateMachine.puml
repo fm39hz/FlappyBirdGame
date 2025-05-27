@@ -1,0 +1,40 @@
+@startuml
+interface IBirdStateMachine {
+}
+class BirdStateMachine <<sealed>> <<partial>> {
+}
+class Input <<static>> {
+}
+class Output <<static>> {
+}
+struct Reset <<readonly>> <<record>> {
+}
+struct Flap <<readonly>> <<record>> {
+}
+struct Fall <<readonly>> <<record>> {
+}
+struct Collide <<readonly>> <<record>> {
+}
+struct Reset <<readonly>> <<record>> {
+}
+struct RotationChange <<readonly>> <<record>> {
+    + Degree : int <<get>> <<init>>
+}
+struct FlyUp <<readonly>> <<record>> {
+}
+struct FallDown <<readonly>> <<record>> {
+}
+IStateMachine <|-- IBirdStateMachine
+"LogicBlock`1" "<BirdStateMachine.State>" <|-- BirdStateMachine
+IBirdStateMachine <|-- BirdStateMachine
+BirdStateMachine +-- Input
+BirdStateMachine +-- Output
+Input +-- Reset
+Input +-- Flap
+Input +-- Fall
+Input +-- Collide
+Output +-- Reset
+Output +-- RotationChange
+Output +-- FlyUp
+Output +-- FallDown
+@enduml

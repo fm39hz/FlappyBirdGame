@@ -1,0 +1,14 @@
+@startuml
+interface IWorld {
+}
+class World <<partial>> {
+    + EntityTable : EntityTable <<get>>
+    + <<virtual>> OnReady() : void
+    + <<override>> _Notification(what:int) : void
+    - Value() : EntityTable
+}
+INode2D <|-- IWorld
+"IProvide`1" "<EntityTable>" <|-- IWorld
+Node2D <|-- World
+IWorld <|-- World
+@enduml

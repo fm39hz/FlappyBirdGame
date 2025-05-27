@@ -1,0 +1,20 @@
+@startuml
+interface ISingleInputRepo {
+    + IsPressed : IAutoProp<bool> <<get>>
+    + InputMap : IAutoProp<EInputMapping> <<get>>
+    + PressButton(inputEvent:InputEvent) : void
+}
+class SingleInputRepo {
+    + PressButton(inputEvent:InputEvent) : void
+    + <<override>> Dispose() : void
+    - <<readonly>> _isPressed : AutoProp<bool>
+    + IsPressed : IAutoProp<bool> <<get>>
+    - <<readonly>> _inputMap : AutoProp<EInputMapping>
+    + InputMap : IAutoProp<EInputMapping> <<get>>
+    <<internal>> SingleInputRepo(inputMap:EInputMapping)
+    <<internal>> SingleInputRepo(inputMap:AutoProp<EInputMapping>, isPressed:AutoProp<bool>)
+}
+IRepository <|-- ISingleInputRepo
+BaseRepository <|-- SingleInputRepo
+ISingleInputRepo <|-- SingleInputRepo
+@enduml

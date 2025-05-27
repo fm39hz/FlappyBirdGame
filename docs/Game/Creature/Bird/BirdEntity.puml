@@ -1,0 +1,25 @@
+@startuml
+interface IBirdEntity {
+    + Collide() : void
+    + IncreaseScore() : void
+}
+class BirdEntity <<partial>> {
+    - <<readonly>> _logger : Log
+    - Timer : Timer <<get>> <<set>>
+    - Sprite2D : Sprite2D <<get>> <<set>>
+    - ScoreCounterComponent : ScoreCounterComponent <<get>> <<set>>
+    - IsCollided : bool <<get>> <<set>>
+    + Gravity : float <<get>> <<set>> = 5f
+    + JumpForce : float <<get>> <<set>> = 5f
+    + StateMachine : BirdStateMachine <<get>>
+    - StartPosition : Vector2 <<get>> <<set>>
+    + IncreaseScore() : void
+    + Collide() : void
+    + OnProvided() : void
+    + <<override>> _PhysicsProcess(delta:double) : void
+}
+"IStateMachineEntity`1" "<BirdStateMachine>" <|-- IBirdEntity
+IAnimalEntity <|-- IBirdEntity
+AnimalEntity <|-- BirdEntity
+IBirdEntity <|-- BirdEntity
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+interface IStateMachineComponent {
+}
+class StateMachineComponent <<partial>> {
+    + OnWireUp() : void
+    + Repo : IStateMachineRepo <<get>>
+    + Entity : IEntity <<get>>
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+"IComponentRepo`2" "<IStateMachineRepo,IEntity>" <|-- IStateMachineComponent
+Node <|-- StateMachineComponent
+IStateMachineComponent <|-- StateMachineComponent
+@enduml

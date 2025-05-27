@@ -1,0 +1,7 @@
+@startuml
+interface IStateMachine {
+    + Start() : void
+    + Set(data:TData) : void
+}
+ILogicBlockBase <|-- IStateMachine
+@enduml

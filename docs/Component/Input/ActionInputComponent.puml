@@ -1,0 +1,15 @@
+@startuml
+interface IActionInputComponent {
+}
+class ActionInputComponent <<partial>> {
+    + <<override>> _UnhandledInput(@event:InputEvent) : void
+    + OnWireUp() : void
+    + Repo : IActionInputRepo <<get>>
+    + Entity : IAnimalEntity <<get>>
+    + EntityTable : EntityTable <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+"IComponentRepo`2" "<IActionInputRepo,IAnimalEntity>" <|-- IActionInputComponent
+Node <|-- ActionInputComponent
+IActionInputComponent <|-- ActionInputComponent
+@enduml

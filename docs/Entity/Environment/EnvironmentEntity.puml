@@ -1,0 +1,15 @@
+@startuml
+interface IEnvironmentEntity {
+}
+class EnvironmentEntity <<partial>> {
+    + Components : Dictionary<Type, IComponent> <<get>> <<set>>
+    - Value() : EntityTable
+    + EntityTable : EntityTable <<get>>
+    + OnResolved() : void
+    + <<override>> _Notification(what:int) : void
+}
+IStaticEntity <|-- IEnvironmentEntity
+IAnimatedEntity <|-- IEnvironmentEntity
+StaticBody2D <|-- EnvironmentEntity
+IEnvironmentEntity <|-- EnvironmentEntity
+@enduml

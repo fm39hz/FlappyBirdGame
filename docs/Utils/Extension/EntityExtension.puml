@@ -1,0 +1,8 @@
+@startuml
+class EntityExtension <<static>> {
+    + {static} ScanComponent(entity:IEntity) : Dictionary<Type, IComponent>
+    + {static} GetComponent(entity:IEntity, required:bool) : T
+    + {static} ResolveComponent(entity:IEntity) : void
+    + {static} RegisterToStateMachine(entity:IEntity, stateMachine:TStateMachine) : TStateMachine
+}
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+enum EInputType {
+    PathFollow,
+    User,
+}
+enum EInputView {
+    TopDown,
+    SideScrolling,
+}
+enum EInputMapping {
+    Left= 0,
+    Right= 1,
+    Up= 2,
+    Down= 3,
+    Exit= 4,
+    Action= 5,
+    Jump= 6,
+}
+class InputMapping {
+    - {static} <<readonly>> _keyMap : string[]
+    - {static} GetMappingValue(input:EInputMapping) : string
+    + {static} IsPressed(eInput:EInputMapping) : bool
+    + {static} IsJustPressed(eInput:EInputMapping) : bool
+    + {static} GetVector() : Vector2
+    + {static} GetHorizontalAxis() : float
+    + {static} GetVerticalAxis() : float
+}
+@enduml

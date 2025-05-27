@@ -1,0 +1,9 @@
+@startuml
+class Main <<partial>> {
+    + GameContainer : PackedScene <<get>> <<set>>
+    + Gui : PackedScene <<get>> <<set>>
+    + <<override>> _Ready() : void
+    - RunScene() : void
+}
+Node2D <|-- Main
+@enduml

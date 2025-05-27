@@ -1,0 +1,53 @@
+@startuml
+class BirdStateMachine <<partial>> {
+    - Reset(isPressed:bool) : void
+    - Flap(isPressed:bool) : void
+    + <<override>> GetInitialState() : Transition
+}
+abstract class State <<record>> {
+    - <<readonly>> _logger : Log
+    - State(animationName:string)
+}
+class Wait <<sealed>> <<record>> {
+    + Wait()
+    + On(input:Input.Flap) : Transition
+}
+abstract class Alive <<record>> {
+    + AnimationName : string <<get>> <<init>>
+    + On(input:Input.Collide) : Transition
+}
+class Dead <<sealed>> <<record>> {
+    + On(input:Input.Reset) : Transition
+}
+class Fall <<sealed>> <<record>> {
+    + Fall()
+    + Run() : void
+    + On(input:Input.Flap) : Transition
+}
+class Flap <<sealed>> <<record>> {
+    + Flap()
+    + Run() : void
+    + On(input:Input.Fall) : Transition
+    - OnSetTime() : void
+    - OnTimeOut() : void
+}
+BirdStateMachine +-- State
+"StateLogic`1" "<State>" <|-- State
+State +-- Wait
+State <|-- Wait
+"IGet`1" "<Input.Flap>" <|-- Wait
+State +-- Alive
+State <|-- Alive
+"IGet`1" "<Input.Collide>" <|-- Alive
+State +-- Dead
+State <|-- Dead
+"IGet`1" "<Input.Reset>" <|-- Dead
+Alive +-- Fall
+Alive <|-- Fall
+"IGet`1" "<Input.Flap>" <|-- Fall
+IState <|-- Fall
+Alive +-- Flap
+Alive <|-- Flap
+"IGet`1" "<Input.Fall>" <|-- Flap
+IState <|-- Flap
+@enduml

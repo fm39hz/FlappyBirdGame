@@ -1,0 +1,5 @@
+@startuml
+class ComponentExtensions <<static>> {
+    + {static} GetEntity(repo:IComponent) : T
+}
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+enum EDirection {
+    South,
+    North,
+    East,
+    West,
+    SouthEast,
+    SouthWest,
+    NorthEast,
+    NorthWest,
+}
+class DirectionConverter <<static>> {
+    + {static} GetDirection(input:Vector2, isFourDirection:bool) : EDirection
+    + {static} Convert(direction:EDirection) : string
+    - {static} RoundDirection : Dictionary<Vector2, EDirection> <<get>>
+    - {static} CrossDirection : Dictionary<Vector2, EDirection> <<get>>
+}
+@enduml

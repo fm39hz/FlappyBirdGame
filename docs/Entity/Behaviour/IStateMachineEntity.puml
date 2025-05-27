@@ -1,0 +1,6 @@
+@startuml
+interface "IStateMachineEntity`1"<out TStateMachine> {
+    + StateMachine : TStateMachine <<get>>
+}
+IEntity <|-- "IStateMachineEntity`1"
+@enduml

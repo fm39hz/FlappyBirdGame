@@ -1,0 +1,27 @@
+@startuml
+interface IMovementStrategyRepo {
+    + Strategy : IAutoProp<IMovementStrategy> <<get>>
+    + Velocity : IAutoProp<Vector2> <<get>>
+    + PressButton(velocity:Vector2) : void
+    +  <<event>> IsMoved : Action<Vector2>? 
+    +  <<event>> StopMovement : Action? 
+}
+interface IMovementStrategy {
+    + IsMove : bool <<get>>
+    + Move(velocity:Vector2) : Vector2
+}
+class MovementStrategyRepo {
+    + PressButton(velocity:Vector2) : void
+    + <<override>> Dispose() : void
+    - <<readonly>> _strategy : AutoProp<IMovementStrategy>
+    + Strategy : IAutoProp<IMovementStrategy> <<get>>
+    - <<readonly>> _velocity : AutoProp<Vector2>
+    + Velocity : IAutoProp<Vector2> <<get>>
+    +  <<event>> IsMoved : Action<Vector2>? 
+    +  <<event>> StopMovement : Action? 
+    <<internal>> MovementStrategyRepo(strategy:IMovementStrategy)
+}
+IRepository <|-- IMovementStrategyRepo
+BaseRepository <|-- MovementStrategyRepo
+IMovementStrategyRepo <|-- MovementStrategyRepo
+@enduml

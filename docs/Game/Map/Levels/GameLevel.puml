@@ -1,0 +1,20 @@
+@startuml
+interface IGameLevel {
+}
+class GameLevel <<partial>> {
+    - <<readonly>> _pipeQueue : Queue<PipeEntity>
+    - <<readonly>> _random : Random
+    - Timer : Timer <<get>> <<set>>
+    + PipeScene : PackedScene <<get>> <<set>>
+    + PipeSpawnInterval : float <<get>> <<set>> = 3.0f
+    + GapSize : float <<get>> <<set>> = 100f
+    + <<override>> _Ready() : void
+    - SpawnPipeSet() : void
+    + Start() : void
+    + Stop() : void
+    + Reset() : void
+}
+IWorld <|-- IGameLevel
+World <|-- GameLevel
+IGameLevel <|-- GameLevel
+@enduml

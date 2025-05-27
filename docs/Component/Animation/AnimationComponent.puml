@@ -1,0 +1,20 @@
+@startuml
+interface IAnimationComponent {
+    + IsFourDirection : bool <<get>> <<set>>
+    + Animate(animation:string) : void
+}
+class AnimationComponent <<partial>> {
+    + Animate(animation:string) : void
+    + IsFourDirection : bool <<get>> <<set>>
+    - {static} <<partial>> Has8Direction() : Regex
+    + OnWireUp() : void
+    + Repo : IAnimationRepo <<get>>
+    + EntityTable : EntityTable <<get>>
+    + Entity : IAnimatedEntity <<get>>
+    + <<override>> _Notification(what:int) : void
+}
+IAnimationPlayer <|-- IAnimationComponent
+"IComponentRepo`2" "<IAnimationRepo,IAnimatedEntity>" <|-- IAnimationComponent
+AnimationPlayer <|-- AnimationComponent
+IAnimationComponent <|-- AnimationComponent
+@enduml

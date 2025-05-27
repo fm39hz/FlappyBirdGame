@@ -1,0 +1,6 @@
+@startuml
+abstract class "Singleton`1"<T> {
+    # {static} <<readonly>> _instance : T
+    # <<readonly>> _tree : SceneTree
+}
+@enduml
